@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario Beneficiario</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+</head>
+<body>
+    <div th:fragment="beneficiarioForm(titulo, beneficiario)" class="container border border-2 w-25">
+
+    <h1 class="text-center" th:text="${titulo}"></h1>
+
+    <form th:object="${beneficiario}" method="post">
+
+        <label class="form-label">Tipo de Documento</label>
+        <input class="form-control" type="text" th:field="*{pk.tipoDocumento}" required />
+
+        <label class="form-label">Número de Documento</label>
+        <input class="form-control" type="number" th:field="*{pk.numeroDocumento}" required />
+
+        <label class="form-label">Nombre</label>
+        <input class="form-control" type="text" th:field="*{nombre}" required />
+
+        <label class="form-label">Fecha de Nacimiento</label>
+        <input class="form-control" type="date" th:field="*{fechaNacimiento}" required />
+
+        <label class="form-label">Dirección de Residencia</label>
+        <input class="form-control" type="text" th:field="*{direccionResidencia}" required />
+
+        <label class="form-label">Teléfono</label>
+        <input class="form-control" type="number" th:field="*{telefono}" required />
+
+        <label class="form-label">Parentesco</label>
+        <input class="form-control" type="text" th:field="*{parentesco}" required />
+
+        <label class="col-form-label">Tipo Documento Contribuyente</label>
+        <input class="form-control" type="text" name="tipoDocContribuyente" required/>
+        
+        <label class="col-form-label">Número Documento Contribuyente</label>
+        <input class="form-control" type="number" name="numDocContribuyente" required/>        
+
+        <div class="text-center mt-3">
+            <input type="submit" value="Guardar" class="btn btn-primary" />
+            <a th:href="@{/beneficiario}" class="btn btn-secondary">Cancelar</a>
+        </div>
+
+    </form>
+</div>
+</body>
+</html>

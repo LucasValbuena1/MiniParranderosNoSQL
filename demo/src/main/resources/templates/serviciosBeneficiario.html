@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Consultar Servicios Beneficiario</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Consultar Servicios Usados por Beneficiario</h2>
+
+    <form th:action="@{/beneficiario/rfc4/consultar}" method="post" class="w-50 mx-auto">
+        <div class="form-group mb-3">
+            <label for="tipoDoc">Tipo Documento:</label>
+            <input type="text" class="form-control" id="tipoDoc" name="tipoDoc" required>
+        </div>
+        <div class="form-group mb-3">
+            <label for="numDoc">Número Documento:</label>
+            <input type="number" class="form-control" id="numDoc" name="numDoc" required>
+        </div>
+        <div class="form-group mb-3">
+            <label for="fIni">Fecha Inicio:</label>
+            <input type="date" class="form-control" id="fIni" name="fIni" required>
+        </div>
+        <div class="form-group mb-3">
+            <label for="fFin">Fecha Fin:</label>
+            <input type="date" class="form-control" id="fFin" name="fFin" required>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <a th:href="@{/beneficiario}" class="btn btn-secondary">Volver</a>
+            <button type="submit" class="btn btn-primary">Consultar</button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

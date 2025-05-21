@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario Servicios de Salud</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+    <div th:fragment="ServiciosForm(titulo, servicios)" class="container border border-2 w-50 p-4">
+        <h1 class="text-center" th:text="${titulo}"></h1>
+
+        <div class="mb-3">
+            <label class="form-label">ID Servicio</label>
+            <input type="number" class="form-control" th:field="*{idServicio}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input type="text" class="form-control" th:field="*{nombre}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="col-form-label">¿Requiere Orden?</label>
+            <select class="form-control" id="requiereOrden" name="requiereOrden" required>
+                <option value="SI" th:selected="${servicios.requiereOrden == 'SI'}">SI</option>
+                <option value="NO" th:selected="${servicios.requiereOrden == 'NO'}">NO</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">ID Orden</label>
+            <input type="number" class="form-control" th:field="*{idOrden}" required>
+        </div>
+
+        <div class="text-center mt-3">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a th:href="@{/servicio}" class="btn btn-secondary">Cancelar</a>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asignar Servicio a IPS</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+</head>
+<body>
+
+<form th:action="@{/serviciosDeUnaIPS/new/save}" method="post" class="container mt-5 w-50">
+    <div th:replace="~{fragments/servicioDeUnaIPSForm :: servicioDeUnaIPSForm(titulo='Asignar Servicio a IPS')}"></div>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Lista de Medicos</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+
+    <div class="container mt-5">
+        <h1 class="text-center">Lista de Medicos</h1>
+        <table class="table table-hover table-bordered mt-4">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Numero Registro Medico</th>
+                    <th>Numero Documento</th>
+                    <th>Nombre</th>
+                    <th>Especialidad</th>
+                    <th>Tipo Documento</th>
+                </tr>
+            </thead>
+            <tbody>
+                <th:block th:each="medico : ${medicos}">
+                    <tr>
+                        <td th:text="${medico.numeroRegistroMedico}"></td>
+                        <td th:text="${medico.numeroDeDocumento}"></td>
+                        <td th:text="${medico.nombre}"></td>
+                        <td th:text="${medico.especialidad}"></td>
+                        <td th:text="${medico.tipoDocumento}"></td>
+                        <td>
+                            <a th:href="@{medico/{numeroRegistroMedico}/edit(numeroRegistroMedico=${medico.numeroRegistroMedico})}" class="btn btn-warning btn-sm">Editar</a>                            
+                            <a th:href="@{/medico/{numeroRegistroMedico}/delete(numeroRegistroMedico=${medico.numeroRegistroMedico})}"
+                                class="btn btn-danger btn-sm"
+                                onclick="return confirm('¿Seguro que deseas eliminar este médico?');">
+                                Borrar
+                            </a>
+                                           
+                        </td>
+                    </tr>
+                </th:block>
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-between mt-4">
+            <a th:href="@{/}" class="btn btn-secondary">Volver al Inicio</a>
+            <a th:href="@{medico/new}" class="btn btn-primary">Añadir medico</a>
+        </div>
+    </div>
+
+</body>
+</html>

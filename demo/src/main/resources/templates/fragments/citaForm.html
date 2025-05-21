@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fragmento</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+    <div th:fragment="citaForm(titulo)" class="container border border-2 w-50">
+        <h1 class="text-center" th:text="${titulo}"></h1>
+        <form th:object="${cita}" method="post">
+            <label class="col-form-label">ID de la Cita</label>
+            <input class="form-control" type="number" id="idCita" name="idCita" required th:value="*{idCita}" />
+
+            <label class="col-form-label">Fecha y Hora</label>
+            <input class="form-control" type="text" id="fechaHora" name="fechaHora" required th:value="*{fechaHora}" placeholder="YYYY-MM-DD HH:MM:SS"/>
+
+            <label class="col-form-label">Estado</label>
+            <select class="form-control" id="estado" name="estado" required th:value="*{estado}">
+                <option value="">Seleccione...</option>
+                <option value="Vigente">Vigente</option>
+                <option value="Cancelada">Cancelada</option>
+                <option value="Completada">Completada</option>
+            </select>
+            <label class="col-form-label">ID Orden de Servicio</label>
+            <input class="form-control" type="number" id="idOrdenDeServicio" name="idOrdenDeServicio" required th:value="*{idOrdenDeServicio}" />
+
+            <label class="col-form-label">Tipo Doc Contribuyente</label>
+            <input class="form-control" type="text" id="tipoDocContribuyente" name="tipoDocContribuyente" required th:value="*{tipoDocContribuyente}" />
+
+            <label class="col-form-label">Num Doc Contribuyente</label>
+            <input class="form-control" type="number" id="numDocContribuyente" name="numDocContribuyente" required th:value="*{numDocContribuyente}" />
+
+            <label class="col-form-label">Tipo Doc Beneficiario</label>
+            <input class="form-control" type="text" id="tipoDocBeneficiario" name="tipoDocBeneficiario" required th:value="*{tipoDocBeneficiario}" placeholder="Ej: CC o TI"/>
+
+            <label class="col-form-label">Número Doc Beneficiario</label>
+            <input class="form-control" type="number" id="numDocBeneficiario" name="numDocBeneficiario" required th:value="*{numDocBeneficiario}" placeholder="Ej: 1234567890"/>
+
+
+            <div class="text-center mt-3">
+                <input type="submit" value="Guardar" class="btn btn-primary"/>
+                <a th:href="@{/cita}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

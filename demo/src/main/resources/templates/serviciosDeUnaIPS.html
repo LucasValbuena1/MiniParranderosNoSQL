@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios de una IPS</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1 class="text-center">Servicios de una IPS</h1>
+
+    <table class="table table-hover table-bordered mt-4">
+        <thead>
+            <tr>
+                <th>NIT IPS</th>
+                <th>ID Servicio</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <th:block th:each="servicio : ${servicios}">
+                <tr>
+                    <td th:text="${servicio.pk.nitIPS.nit}"></td>
+                    <td th:text="${servicio.pk.idServicio.idServicio}"></td>
+                    <td>
+                        <a th:href="@{/serviciosDeUnaIPS/{nitIPS}/{idServicio}/delete(nitIPS=${servicio.pk.nitIPS.nit}, idServicio=${servicio.pk.idServicio.idServicio})}" 
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('¿Estás seguro de eliminar esta asignación?');">Borrar</a>
+                    </td>
+                </tr>
+            </th:block>
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between mt-4">
+        <a th:href="@{/}" class="btn btn-secondary">Volver al Inicio</a>
+        <a th:href="@{/serviciosDeUnaIPS/new}" class="btn btn-primary">Asignar Nuevo Servicio</a>
+    </div>
+</div>
+
+</body>
+</html>

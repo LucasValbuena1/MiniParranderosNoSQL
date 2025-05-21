@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disponibilidad del Servicio</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Disponibilidad del Servicio</h1>
+
+    <table class="table table-hover table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Nombre del Servicio</th>
+                <th>Fecha y Hora de Disponibilidad</th>
+                <th>Nombre de la IPS</th>
+                <th>Nombre del Médico</th>
+            </tr>
+        </thead>
+        <tbody>
+            <th:block th:if="${resultados.isEmpty()}">
+                <tr>
+                    <td colspan="4" class="text-center">No hay disponibilidad en las próximas 4 semanas.</td>
+                </tr>
+            </th:block>
+            <th:block th:each="fila : ${resultados}">
+                <tr>
+                    <td th:text="${fila.servicio}"></td>
+                    <td th:text="${#dates.format(fila.disponibilidad, 'dd/MM/yyyy HH:mm')}"></td>
+                    <td th:text="${fila.ips}"></td>
+                    <td th:text="${fila.medico}"></td>
+                </tr>
+            </th:block>
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between mt-4">
+        <a th:href="@{/servicio}" class="btn btn-secondary">Volver a Servicios</a>
+    </div>
+</div>
+
+</body>
+</html>

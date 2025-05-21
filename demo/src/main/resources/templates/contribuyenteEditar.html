@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar contribuyente</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+    <form th:action="@{'/contribuyente/' + ${contribuyente.pk.tipoDocumento} + '/' + ${contribuyente.pk.numeroDocumento} + '/edit/save'}" 
+          th:object="${contribuyente}" method="post">
+        <div th:replace="~{fragments/contribuyenteForm :: contribuyenteForm(titulo='Editar contribuyente', contribuyente=${contribuyente})}">
+        </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de orden servicios</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+
+    <div class="container mt-5">
+        <h1 class="text-center">Lista de orden servicios</h1>
+        <table class="table table-hover table-bordered mt-4">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID orden</th>
+                    <th>Medico Asociado</th>
+                    <th>Servicio Medico</th>
+                    <th>Estado</th>
+                    <th>Tipo Doc Contribuyente</th>
+                    <th>Numero Doc Contribuyente</th>
+                    <th>Tipo Doc Beneficiario</th>
+                    <th>Num Doc Beneficiario</th>                                  
+                    <th>Acciones</th> <!-- Este th lo agrego porque abajo tienes acciones -->
+                </tr>
+            </thead>
+            <tbody>
+                <th:block th:each="orden : ${ordenes}">
+                    <tr>
+                        <td th:text="${orden.idOrden}"></td>
+                        <td th:text="${orden.medicoAsociado}"></td>
+                        <td th:text="${orden.servicioMedico}"></td>
+                        <td th:text="${orden.estado}"></td>
+                        <td th:text="${orden.tipoDocContribuyente}"></td>
+                        <td th:text="${orden.numDocContribuyente}"></td>
+                        <td th:text="${orden.tipoDocBeneficiario}"></td>
+                        <td th:text="${orden.numDocBeneficiario}"></td>
+                        <td>
+                            <a th:href="@{/ordenservicio/{id}/edit(id=${orden.idOrden})}" class="btn btn-warning btn-sm">Editar</a>
+                            <form th:action="@{/ordenservicio/{id}/delete(id=${orden.idOrden})}" method="get" class="d-inline">
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar esta orden de servicio?');">Borrar</button>
+                            </form>
+                        </td>
+                    </tr>
+                </th:block>
+            </tbody>
+        </table>
+
+        <div class="d-flex justify-content-between mt-4">
+            <a th:href="@{/}" class="btn btn-secondary">Volver al Inicio</a>
+            <a th:href="@{/ordenservicio/new}" class="btn btn-primary">Añadir ordenservicio</a>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar beneficiario</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+    <form th:action="@{'/beneficiario/' + ${tipoDocumento} + '/' + ${numeroDocumento} + '/edit/save'}" th:object="${beneficiario}" method="post">
+        <div th:replace="~{fragments/beneficiarioForm :: beneficiarioForm(titulo='Editar beneficiario', beneficiario=${beneficiario})}">
+        </div>
+    </form>    
+</body>
+</html>

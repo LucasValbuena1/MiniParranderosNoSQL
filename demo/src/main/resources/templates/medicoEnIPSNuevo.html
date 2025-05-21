@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asignar Médico a IPS</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+
+<form th:action="@{/medicoEnIPS/new/save}" method="post" class="container mt-5 w-50" th:object="${medicoEnIPS}">
+    <div th:replace="~{fragments/medicoEnIPSForm :: medicoEnIPSForm(titulo='Asignar Médico a IPS')}"></div>
+</form>
+
+</body>
+</html>

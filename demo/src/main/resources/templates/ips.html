@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de IPS</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+
+    <div class="container mt-5">
+        <h1 class="text-center">Lista de IPS</h1>
+        <table class="table table-hover table-bordered mt-4">
+            <thead class="thead-dark">
+                <tr>
+                    <th>NIT</th>
+                    <th>Nombre</th>
+                    <th>Dirección</th>
+                    <th>Teléfono</th>
+                    <th>Tipo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <th:block th:each="ips : ${ips}">
+                    <tr>
+                        <td th:text="${ips.nit}"></td>
+                        <td th:text="${ips.nombre}"></td>
+                        <td th:text="${ips.direccion}"></td>
+                        <td th:text="${ips.telefono}"></td>
+                        <td th:text="${ips.tipo}"></td>
+
+                        <td>
+                            <a th:href="@{ips/{nit}/edit(nit=${ips.nit})}" class="btn btn-warning btn-sm">Editar</a>                            
+                            <a th:href="@{/ips/{nit}/delete(nit=${ips.nit})}" 
+                                class="btn btn-danger btn-sm"
+                                onclick="return confirm('¿Seguro que deseas eliminar esta IPS?');">
+                                Borrar
+                            </a>
+                        </td>
+                    </tr>
+                </th:block>
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-between mt-4">
+            <a th:href="@{/}" class="btn btn-secondary">Volver al Inicio</a>
+            <a th:href="@{ips/new}" class="btn btn-primary">Añadir Ips</a>
+        </div>
+    </div>
+
+</body>
+</html>
