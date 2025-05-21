@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Consultar Agenda (RFC5/RFC6)</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Consultar Agenda de Servicios de Salud</h1>
+
+        <form th:action="@{/cita/agenda/consultar}" method="post" class="mt-4">
+
+            <div class="mb-3">
+                <label for="idServicio" class="form-label">ID Servicio (opcional)</label>
+                <input type="number" class="form-control" id="idServicio" name="idServicio">
+            </div>
+
+            <div class="mb-3">
+                <label for="numMedico" class="form-label">Número Registro Médico (opcional)</label>
+                <input type="number" class="form-control" id="numMedico" name="numMedico">
+            </div>
+
+            <div class="mb-3">
+                <label for="fechaInicio" class="form-label">Fecha Inicio</label>
+                <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="fechaFin" class="form-label">Fecha Fin</label>
+                <input type="date" class="form-control" id="fechaFin" name="fechaFin" required>
+            </div>
+            
+
+            <div class="mb-3">
+                <label for="modo" class="form-label">Modo de Consulta</label>
+                <select class="form-control" id="modo" name="modo" required>
+                    <option value="rfc5">RFC5 - SERIALIZABLE</option>
+                    <option value="rfc6">RFC6 - READ COMMITTED</option>
+                </select>
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary">Consultar Agenda</button>
+                <a th:href="@{/servicio}" class="btn btn-secondary">Volver a Servicios</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fragmento</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+    <div th:fragment="ordenservicioForm(titulo, ordenservicio)" class="container border border-2 w-50 p-4">
+        <h1 class="text-center" th:text="${titulo}"></h1>
+        <form method="post" th:action="@{/ordenservicio/new/save}">
+            
+            <label class="col-form-label">Medico Asociado</label>
+            <input class="form-control" type="number" id="medicoAsociado" name="medicoAsociado" required th:value="${ordenservicio.medicoAsociado}"/>
+
+            <label class="col-form-label">Servicio Médico</label>
+            <input class="form-control" type="text" id="servicioMedico" name="servicioMedico" required th:value="${ordenservicio.servicioMedico}"/>
+
+            <label class="col-form-label">Estado</label>
+            <select class="form-control" id="estado" name="estado" required>
+                <option value="Vigente" th:selected="${ordenservicio.estado == 'Vigente'}">Vigente</option>
+                <option value="Cancelada" th:selected="${ordenservicio.estado == 'Cancelada'}">Cancelada</option>
+                <option value="Completada" th:selected="${ordenservicio.estado == 'Completada'}">Completada</option>
+            </select>
+
+            <label class="col-form-label">Vigencia</label>
+            <select class="form-control" id="vigencia" name="vigencia" required>
+                <option value="Vigente" th:selected="${ordenservicio.vigencia == 'Vigente'}">Vigente</option>
+                <option value="Vencida" th:selected="${ordenservicio.vigencia == 'Vencida'}">Vencida</option>
+            </select>
+
+            <label class="col-form-label">Tipo Documento Contribuyente</label>
+            <input class="form-control" type="text" id="tipoDocContribuyente" name="tipoDocContribuyente" required th:value="${ordenservicio.tipoDocContribuyente}"/>
+
+            <label class="col-form-label">Número Documento Contribuyente</label>
+            <input class="form-control" type="number" id="numDocContribuyente" name="numDocContribuyente" required th:value="${ordenservicio.numDocContribuyente}"/>
+
+            <label class="col-form-label">Tipo Documento Beneficiario</label>
+            <input class="form-control" type="text" id="tipoDocBeneficiario" name="tipoDocBeneficiario" required th:value="${ordenservicio.tipoDocBeneficiario}"/>
+
+            <label class="col-form-label">Número Documento Beneficiario</label>
+            <input class="form-control" type="number" id="numDocBeneficiario" name="numDocBeneficiario" required th:value="${ordenservicio.numDocBeneficiario}"/>
+
+            <div class="text-center mt-3">
+                <input type="submit" value="Guardar" class="btn btn-primary"/>
+                <a th:href="@{/ordenservicio}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

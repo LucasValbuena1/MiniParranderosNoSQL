@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fragmento</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+    <div th:fragment="medicoForm(titulo)" class="container border border-2 w-50">
+        <h1 class="text-center" th:text="${titulo}"></h1>
+        <label class="col-form-label">Número Registro Médico</label>
+        <input class="form-control" type="text" th:field="*{numeroRegistroMedico}" required />
+
+        <label class="col-form-label">Número Documento</label>
+        <input class="form-control" type="text" th:field="*{numeroDeDocumento}" required />
+
+        <label class="col-form-label">Nombre</label>
+        <input class="form-control" type="text" th:field="*{nombre}" required />
+
+        <label class="col-form-label">Especialidad</label>
+        <input class="form-control" type="text" th:field="*{especialidad}" required />
+
+        <label class="col-form-label">Tipo Documento</label>
+        <input class="form-control" type="text" th:field="*{tipoDocumento}" required />
+
+        <div class="text-center mt-3">
+            <input type="submit" value="Guardar" class="btn btn-primary" />
+            <a th:href="@{/medico}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </div>
+</body>
+</html>

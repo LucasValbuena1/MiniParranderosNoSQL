@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultados Servicios Beneficiario</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Resultados Servicios Usados por Beneficiario</h2>
+
+    <table class="table table-hover table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Afiliado</th>
+                <th>Fecha Servicio</th>
+                <th>Servicio</th>
+                <th>Médico</th>
+                <th>IPS</th>
+            </tr>
+        </thead>
+        <tbody>
+            <th:block th:each="fila : ${resultados}">
+                <tr>
+                    <td th:text="${fila[0]}"></td>
+                    <td th:text="${fila[1]}"></td>
+                    <td th:text="${fila[2]}"></td>
+                    <td th:text="${fila[3]}"></td>
+                    <td th:text="${fila[4]}"></td>
+                </tr>
+            </th:block>
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between mt-4">
+        <a th:href="@{/beneficiario}" class="btn btn-secondary">Volver</a>
+        <a th:href="@{/beneficiario/rfc4/form}" class="btn btn-primary">Nueva Consulta</a>
+    </div>
+</div>
+
+</body>
+</html>

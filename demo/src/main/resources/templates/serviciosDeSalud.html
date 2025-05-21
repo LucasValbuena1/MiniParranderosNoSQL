@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Servicios de Salud</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+
+    <div class="container mt-5">
+        <h1 class="text-center">Lista de Servicios de Salud</h1>
+        <table class="table table-hover table-bordered mt-4">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID Servicio</th>
+                    <th>Nombre</th>
+                    <th>Requiere Orden</th>
+                    <th>ID orden</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <th:block th:each="servicio : ${servicios}">
+                    <tr>
+                        <td th:text="${servicio.idServicio}"></td>
+                        <td th:text="${servicio.nombre}"></td>
+                        <td th:text="${servicio.requiereOrden}"></td>
+                        <td th:text="${servicio.idOrden}"></td>
+                        <td>
+                            <a th:href="@{servicio/{idServicio}/edit(idServicio=${servicio.idServicio})}" class="btn btn-warning btn-sm">Editar</a>
+                            <a th:href="@{servicio/{idServicio}/delete(idServicio=${servicio.idServicio})}" 
+                                class="btn btn-danger btn-sm" 
+                                onclick="return confirm('¿Seguro que deseas eliminar este servicio?');">
+                                Borrar
+                            </a>
+                            <a th:href="@{'/servicio/' + ${servicio.idServicio} + '/disponibilidad'}" class="btn btn-info btn-sm">Consultar Disponibilidad</a>
+                            <a th:href="@{'/servicio/' + ${servicio.idOrden} + '/agendar'}" class="btn btn-success btn-sm">Agendar Servicio (RF9)</a>
+                            <!--
+                            <a th:href="@{/servicio/{idServicio}/agendar(idServicio=${servicio.idServicio})}" class="btn btn-success btn-sm">Agendar Servicio (RF9)</a>
+                            -->
+                        </td>
+                    </tr>
+                </th:block>
+            </tbody>
+        </table>
+
+        <div class="d-flex justify-content-between mt-4">
+            <a th:href="@{/}" class="btn btn-secondary">Volver al Inicio</a>
+            <a th:href="@{/servicio/new}" class="btn btn-primary">Añadir Servicio</a>
+            <a th:href="@{/servicio/rfc2/form}" class="btn btn-success">Top 20 Servicios Más Solicitados</a> 
+            <a th:href="@{/servicio/rfc3/form}" class="btn btn-info">Consultar Índice Citas/Órdenes (RFC-3)</a>
+            <a th:href="@{/cita/agenda/form}" class="btn btn-warning">Consultar Agenda (RFC5 / RFC6)</a>
+
+
+        </div>
+        
+    </div>
+
+</body>
+</html>
