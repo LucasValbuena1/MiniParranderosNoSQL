@@ -5,7 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
 
-@Document(collection = "citas")
+@Document(collection = "CITAS")
 public class Cita {
     @Id
     private Integer idCita;

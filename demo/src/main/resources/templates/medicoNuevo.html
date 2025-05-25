@@ -1,14 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear medico</title>
+    <title>Crear médico</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
 </head>
 <body>
-    <form th:action="@{/medico/new/save}" th:object="${medico}" method="post">
-        <div th:replace="~{fragments/medicoForm :: medicoForm(titulo='Crear medico')}"></div>
-    </form>
+    <div class="container mt-5">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white text-center">
+                <h2>Registrar Nuevo Médico</h2>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/medico/new/save}" method="post">
+                    <div class="form-group mb-3">
+                        <label for="id">ID</label>
+                        <input type="number" class="form-control" id="id" name="id" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="tipoDeDocumento">Tipo de Documento</label>
+                        <input type="text" class="form-control" id="tipoDeDocumento" name="tipoDeDocumento" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="numeroDeDocumento">Número de Documento</label>
+                        <input type="text" class="form-control" id="numeroDeDocumento" name="numeroDeDocumento" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="numeroRegistroMedico">Número de Registro Médico</label>
+                        <input type="text" class="form-control" id="numeroRegistroMedico" name="numeroRegistroMedico" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="especialidadesInput">Especialidades <span class="text-muted">(separadas por coma)</span></label>
+                        <input type="text" class="form-control" id="especialidadesInput" name="especialidadesInput" placeholder="Ej: Pediatría, Medicina General" required>
+                    </div>
+                    <div class="form-group mb-4">
+                        <label for="IPSAsociadaInput">ID de IPS Asociada</label>
+                        <input type="number" class="form-control" id="IPSAsociadaInput" name="IPSAsociadaInput" required>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <a th:href="@{/medico}" class="btn btn-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-success">Registrar Médico</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
+

@@ -25,7 +25,7 @@ public class ServiciosDeUnaIPSController {
     }
 
     @PostMapping("/serviciosDeUnaIPS/new/save")
-    public String save(@RequestParam Integer nitIPS, @RequestParam Integer idServicio) {
+    public String save(@RequestParam String nitIPS, @RequestParam String idServicio) {
         servicio.insertarServicio(new ServiciosDeUnaIPS(nitIPS, idServicio));
         return "redirect:/serviciosDeUnaIPS";
     }

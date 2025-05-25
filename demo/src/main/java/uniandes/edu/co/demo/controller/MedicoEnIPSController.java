@@ -25,7 +25,7 @@ public class MedicoEnIPSController {
     }
 
     @PostMapping("/medicoEnIPS/new/save")
-    public String save(@RequestParam Integer nitIPS, @RequestParam Integer numeroRegistroMedico) {
+    public String save(@RequestParam String nitIPS, @RequestParam String numeroRegistroMedico) {
         servicio.insertarMedico(new MedicoEnIPS(nitIPS, numeroRegistroMedico));
         return "redirect:/medicoEnIPS";
     }

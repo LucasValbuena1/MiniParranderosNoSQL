@@ -3,18 +3,18 @@ package uniandes.edu.co.demo.modelo;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "serviciosDeSalud")
+@Document(collection = "SERVICIOS_DE_SALUD")
 public class ServicioDeSalud {
     @Id
     private Integer idServicio;
     private String nombre;
-    private Boolean requiereOrden;
+    private String requiereOrden;
     private Integer idOrden;
 
     public ServicioDeSalud() {
     }
 
-    public ServicioDeSalud(Integer idServicio, String nombre, Boolean requiereOrden, Integer idOrden) {
+    public ServicioDeSalud(Integer idServicio, String nombre, String requiereOrden, Integer idOrden) {
         this.idServicio = idServicio;
         this.nombre = nombre;
         this.requiereOrden = requiereOrden;
@@ -37,11 +37,11 @@ public class ServicioDeSalud {
         this.nombre = nombre;
     }
 
-    public Boolean getRequiereOrden() {
+    public String getRequiereOrden() {
         return requiereOrden;
     }
 
-    public void setRequiereOrden(Boolean requiereOrden) {
+    public void setRequiereOrden(String requiereOrden) {
         this.requiereOrden = requiereOrden;
     }
 

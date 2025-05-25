@@ -3,25 +3,25 @@ package uniandes.edu.co.demo.modelo;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "ordenesDeServicio")
+@Document(collection = "ORDENES_DE_SERVICIO")
 public class OrdenDeServicio {
     @Id
     private Integer idOrden;
-    private Integer medicoAsociado;
+    private String medicoAsociado;
     private String servicioMedico;
     private String estado;
     private String vigencia;
     private String tipoDocContribuyente;
-    private Integer numDocContribuyente;
+    private String numDocContribuyente;
     private String tipoDocBeneficiario;
-    private Integer numDocBeneficiario;
+    private String numDocBeneficiario;
 
     public OrdenDeServicio() {
     }
 
-    public OrdenDeServicio(Integer idOrden, Integer medicoAsociado, String servicioMedico, String estado,
-            String vigencia, String tipoDocContribuyente, Integer numDocContribuyente, String tipoDocBeneficiario,
-            Integer numDocBeneficiario) {
+    public OrdenDeServicio(Integer idOrden, String medicoAsociado, String servicioMedico, String estado,
+            String vigencia, String tipoDocContribuyente, String numDocContribuyente, String tipoDocBeneficiario,
+            String numDocBeneficiario) {
         this.idOrden = idOrden;
         this.medicoAsociado = medicoAsociado;
         this.servicioMedico = servicioMedico;
@@ -41,11 +41,11 @@ public class OrdenDeServicio {
         this.idOrden = idOrden;
     }
 
-    public Integer getMedicoAsociado() {
+    public String getMedicoAsociado() {
         return medicoAsociado;
     }
 
-    public void setMedicoAsociado(Integer medicoAsociado) {
+    public void setMedicoAsociado(String medicoAsociado) {
         this.medicoAsociado = medicoAsociado;
     }
 
@@ -81,11 +81,11 @@ public class OrdenDeServicio {
         this.tipoDocContribuyente = tipoDocContribuyente;
     }
 
-    public Integer getNumDocContribuyente() {
+    public String getNumDocContribuyente() {
         return numDocContribuyente;
     }
 
-    public void setNumDocContribuyente(Integer numDocContribuyente) {
+    public void setNumDocContribuyente(String numDocContribuyente) {
         this.numDocContribuyente = numDocContribuyente;
     }
 
@@ -97,11 +97,11 @@ public class OrdenDeServicio {
         this.tipoDocBeneficiario = tipoDocBeneficiario;
     }
 
-    public Integer getNumDocBeneficiario() {
+    public String getNumDocBeneficiario() {
         return numDocBeneficiario;
     }
 
-    public void setNumDocBeneficiario(Integer numDocBeneficiario) {
+    public void setNumDocBeneficiario(String numDocBeneficiario) {
         this.numDocBeneficiario = numDocBeneficiario;
     }
 }

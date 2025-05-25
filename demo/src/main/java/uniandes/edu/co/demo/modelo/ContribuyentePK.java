@@ -1,14 +1,10 @@
 package uniandes.edu.co.demo.modelo;
 
-import java.io.Serializable;
-import java.util.Objects;
-
-public class ContribuyentePK implements Serializable {
+public class ContribuyentePK {
     private String tipoDocumento;
     private String numeroDocumento;
 
-    public ContribuyentePK() {
-    }
+    public ContribuyentePK() {}
 
     public ContribuyentePK(String tipoDocumento, String numeroDocumento) {
         this.tipoDocumento = tipoDocumento;
@@ -29,21 +25,5 @@ public class ContribuyentePK implements Serializable {
 
     public void setNumeroDocumento(String numeroDocumento) {
         this.numeroDocumento = numeroDocumento;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (!(o instanceof ContribuyentePK))
-            return false;
-        ContribuyentePK that = (ContribuyentePK) o;
-        return Objects.equals(tipoDocumento, that.tipoDocumento)
-                && Objects.equals(numeroDocumento, that.numeroDocumento);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(tipoDocumento, numeroDocumento);
     }
 }

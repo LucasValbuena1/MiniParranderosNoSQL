@@ -17,8 +17,9 @@
                     <th>Numero Registro Medico</th>
                     <th>Numero Documento</th>
                     <th>Nombre</th>
-                    <th>Especialidad</th>
+                    <th>Especialidades</th>
                     <th>Tipo Documento</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,16 +28,19 @@
                         <td th:text="${medico.numeroRegistroMedico}"></td>
                         <td th:text="${medico.numeroDeDocumento}"></td>
                         <td th:text="${medico.nombre}"></td>
-                        <td th:text="${medico.especialidad}"></td>
-                        <td th:text="${medico.tipoDocumento}"></td>
                         <td>
-                            <a th:href="@{medico/{numeroRegistroMedico}/edit(numeroRegistroMedico=${medico.numeroRegistroMedico})}" class="btn btn-warning btn-sm">Editar</a>                            
+                            <ul>
+                                <li th:each="esp : ${medico.especialidades}" th:text="${esp}"></li>
+                            </ul>
+                        </td>
+                        <td th:text="${medico.tipoDeDocumento}"></td>
+                        <td>
+                            <a th:href="@{/medico/{numeroRegistroMedico}/edit(numeroRegistroMedico=${medico.numeroRegistroMedico})}" class="btn btn-warning btn-sm">Editar</a>
                             <a th:href="@{/medico/{numeroRegistroMedico}/delete(numeroRegistroMedico=${medico.numeroRegistroMedico})}"
                                 class="btn btn-danger btn-sm"
                                 onclick="return confirm('¿Seguro que deseas eliminar este médico?');">
                                 Borrar
                             </a>
-                                           
                         </td>
                     </tr>
                 </th:block>
@@ -44,7 +48,7 @@
         </table>
         <div class="d-flex justify-content-between mt-4">
             <a th:href="@{/}" class="btn btn-secondary">Volver al Inicio</a>
-            <a th:href="@{medico/new}" class="btn btn-primary">Añadir medico</a>
+            <a th:href="@{/medico/new}" class="btn btn-primary">Añadir medico</a>
         </div>
     </div>
 

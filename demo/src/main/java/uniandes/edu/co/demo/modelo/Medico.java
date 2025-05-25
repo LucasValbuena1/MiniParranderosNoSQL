@@ -3,41 +3,44 @@ package uniandes.edu.co.demo.modelo;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "medicos")
+import java.util.ArrayList;
+import java.util.List;
+
+@Document(collection = "MEDICOS")
 public class Medico {
     @Id
-    private Integer numeroRegistroMedico;
-    private Integer numeroDeDocumento;
+    private Integer id;
+
     private String nombre;
-    private String especialidad;
-    private String tipoDocumento;
+    private String tipoDeDocumento;
+    private String numeroDeDocumento;
+    private String numeroRegistroMedico;
+    private List<String> especialidades = new ArrayList<>();
+    private List<Integer> IPSAsociada = new ArrayList<>();
 
     public Medico() {
+        // Asegura que la lista nunca sea null
+        this.especialidades = new ArrayList<>();
     }
 
-    public Medico(Integer numeroRegistroMedico, Integer numeroDeDocumento, String nombre, String especialidad,
-            String tipoDocumento) {
-        this.numeroRegistroMedico = numeroRegistroMedico;
-        this.numeroDeDocumento = numeroDeDocumento;
+    public Medico(Integer id, String nombre, String tipoDeDocumento, String numeroDeDocumento, String numeroRegistroMedico, List<String> especialidades, List<Integer> IPSAsociada) {
+        this.id = id;
         this.nombre = nombre;
-        this.especialidad = especialidad;
-        this.tipoDocumento = tipoDocumento;
-    }
-
-    public Integer getNumeroRegistroMedico() {
-        return numeroRegistroMedico;
-    }
-
-    public void setNumeroRegistroMedico(Integer numeroRegistroMedico) {
-        this.numeroRegistroMedico = numeroRegistroMedico;
-    }
-
-    public Integer getNumeroDeDocumento() {
-        return numeroDeDocumento;
-    }
-
-    public void setNumeroDeDocumento(Integer numeroDeDocumento) {
+        this.tipoDeDocumento = tipoDeDocumento;
         this.numeroDeDocumento = numeroDeDocumento;
+        this.numeroRegistroMedico = numeroRegistroMedico;
+        this.especialidades = (especialidades != null) ? especialidades : new ArrayList<>();
+        this.IPSAsociada = IPSAsociada;
+    }
+
+    // Getters y Setters
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -48,19 +51,44 @@ public class Medico {
         this.nombre = nombre;
     }
 
-    public String getEspecialidad() {
-        return especialidad;
+    public String getTipoDeDocumento() {
+        return tipoDeDocumento;
     }
 
-    public void setEspecialidad(String especialidad) {
-        this.especialidad = especialidad;
+    public void setTipoDeDocumento(String tipoDeDocumento) {
+        this.tipoDeDocumento = tipoDeDocumento;
     }
 
-    public String getTipoDocumento() {
-        return tipoDocumento;
+    public String getNumeroDeDocumento() {
+        return numeroDeDocumento;
     }
 
-    public void setTipoDocumento(String tipoDocumento) {
-        this.tipoDocumento = tipoDocumento;
+    public void setNumeroDeDocumento(String numeroDeDocumento) {
+        this.numeroDeDocumento = numeroDeDocumento;
     }
+
+    public String getNumeroRegistroMedico() {
+        return numeroRegistroMedico;
+    }
+
+    public void setNumeroRegistroMedico(String numeroRegistroMedico) {
+        this.numeroRegistroMedico = numeroRegistroMedico;
+    }
+
+    public List<String> getEspecialidades() {
+        return especialidades;
+    }
+
+    public void setEspecialidades(List<String> especialidades) {
+        this.especialidades = (especialidades != null) ? especialidades : new ArrayList<>();
+    }
+
+    public List<Integer> getIPSAsociada() {
+    return IPSAsociada;
+}
+
+public void setIPSAsociada(List<Integer> IPSAsociada) {
+    this.IPSAsociada = (IPSAsociada != null) ? IPSAsociada : new ArrayList<>();
+}
+
 }

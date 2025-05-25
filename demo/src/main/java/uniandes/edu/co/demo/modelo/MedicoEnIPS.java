@@ -3,17 +3,17 @@ package uniandes.edu.co.demo.modelo;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "medicoEnIPS")
+@Document(collection = "MEDICO_EN_IPS")
 public class MedicoEnIPS {
     @Id
     private String id; // "nit-medReg"
-    private Integer nitIPS;
-    private Integer numeroRegistroMedico;
+    private String nitIPS;
+    private String numeroRegistroMedico;
 
     public MedicoEnIPS() {
     }
 
-    public MedicoEnIPS(Integer nitIPS, Integer numeroRegistroMedico) {
+    public MedicoEnIPS(String nitIPS, String numeroRegistroMedico) {
         this.nitIPS = nitIPS;
         this.numeroRegistroMedico = numeroRegistroMedico;
         this.id = nitIPS + "-" + numeroRegistroMedico;
@@ -27,20 +27,20 @@ public class MedicoEnIPS {
         this.id = id;
     }
 
-    public Integer getNitIPS() {
+    public String getNitIPS() {
         return nitIPS;
     }
 
-    public void setNitIPS(Integer nitIPS) {
+    public void setNitIPS(String nitIPS) {
         this.nitIPS = nitIPS;
         this.id = nitIPS + "-" + this.numeroRegistroMedico;
     }
 
-    public Integer getNumeroRegistroMedico() {
+    public String getNumeroRegistroMedico() {
         return numeroRegistroMedico;
     }
 
-    public void setNumeroRegistroMedico(Integer numeroRegistroMedico) {
+    public void setNumeroRegistroMedico(String numeroRegistroMedico) {
         this.numeroRegistroMedico = numeroRegistroMedico;
         this.id = this.nitIPS + "-" + numeroRegistroMedico;
     }

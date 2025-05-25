@@ -1,5 +1,6 @@
 package uniandes.edu.co.demo.controller;
 
+import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +30,19 @@ public class ContribuyenteController {
 
     @PostMapping("/contribuyente/new/save")
     public String save(@ModelAttribute Contribuyente c) {
+        if (c.getPk() == null) c.setPk(new ContribuyentePK());
+        if (c.getBeneficiarios() == null) c.setBeneficiarios(new ArrayList<>());
+        // Sincroniza los campos principales
+        if (c.getPk().getTipoDocumento() == null) c.getPk().setTipoDocumento("");
+        if (c.getPk().getNumeroDocumento() == null) c.getPk().setNumeroDocumento("");
+        c.setTipoDeDocumento(c.getPk().getTipoDocumento());
+        c.setNumeroDeDocumento(c.getPk().getNumeroDocumento());
+        c.setId();
+        // llena por defecto para evitar nulls
+        if (c.getDireccionDeResidencia() == null) c.setDireccionDeResidencia("");
+        if (c.getFechaDeNacimiento() == null) c.setFechaDeNacimiento(new java.util.Date());
+        if (c.getTelefono() == null) c.setTelefono("");
+        if (c.getNombre() == null) c.setNombre("");
         servicio.insertarContribuyente(c);
         return "redirect:/contribuyente";
     }

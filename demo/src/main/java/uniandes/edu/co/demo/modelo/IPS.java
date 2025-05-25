@@ -1,33 +1,63 @@
 package uniandes.edu.co.demo.modelo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "ips")
+
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Document(collection = "IPS")
 public class IPS {
     @Id
-    private Integer nit;
+    private Integer id; // El identificador que exige tu validador en MongoDB
+
+    private String nit;
     private String nombre;
     private String direccion;
-    private Long telefono;
+    private String telefono;
     private String tipo;
 
+    private List<Integer> servicios = new ArrayList<>(); // Inicializa vacío por defecto
+
     public IPS() {
+        // Inicializa servicios vacío por si acaso
+        this.servicios = new ArrayList<>();
     }
 
-    public IPS(Integer nit, String nombre, String direccion, Long telefono, String tipo) {
+    public IPS(Integer id, String nit, String nombre, String direccion, String telefono, String tipo, List<Integer> servicios) {
+        this.id = id;
         this.nit = nit;
         this.nombre = nombre;
         this.direccion = direccion;
         this.telefono = telefono;
         this.tipo = tipo;
+        // Si servicios viene nulo, inicialízalo vacío
+        this.servicios = (servicios != null) ? servicios : new ArrayList<>();
     }
 
-    public Integer getNit() {
+    // Getters y setters
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getNit() {
         return nit;
     }
 
-    public void setNit(Integer nit) {
+    public void setNit(String nit) {
         this.nit = nit;
     }
 
@@ -47,11 +77,11 @@ public class IPS {
         this.direccion = direccion;
     }
 
-    public Long getTelefono() {
+    public String getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(Long telefono) {
+    public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 
@@ -61,5 +91,13 @@ public class IPS {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public List<Integer> getServicios() {
+        return servicios;
+    }
+
+    public void setServicios(List<Integer> servicios) {
+        this.servicios = (servicios != null) ? servicios : new ArrayList<>();
     }
 }

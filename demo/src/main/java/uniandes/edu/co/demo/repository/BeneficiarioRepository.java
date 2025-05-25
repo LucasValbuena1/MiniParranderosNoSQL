@@ -12,7 +12,7 @@ public interface BeneficiarioRepository extends MongoRepository<Beneficiario, St
 
   void deleteById(String id);
 
-  List<Beneficiario> findByContribuyente_NumeroDocumento(String numDoc);
+  //List<Beneficiario> findByContribuyente_NumeroDocumento(String numDoc);
 
   @Query("{ 'contribuyente.tipoDocumento': ?0, 'contribuyente.numeroDocumento': ?1 }")
   List<Beneficiario> buscarPorContribuyente(String tipoDoc, String numDoc);
