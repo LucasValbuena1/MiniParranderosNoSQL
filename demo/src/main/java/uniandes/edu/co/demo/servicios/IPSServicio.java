@@ -19,7 +19,7 @@ public class IPSServicio {
         return repo.findByNit(nit);
     }
 
-    public void insertarIPS(IPS ips) {
+     public void insertarIPS(IPS ips) {
     if (ips.getId() == null) {
         // Busca el máximo ID actual y suma 1
         Integer maxId = repo.findAll()

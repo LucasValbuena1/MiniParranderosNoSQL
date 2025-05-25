@@ -26,21 +26,21 @@
         <tbody>
             <th:block th:each="beneficiario : ${beneficiarios}">
                 <tr>
-                    <td th:text="${beneficiario.pk.tipoDocumento}"></td>
-                    <td th:text="${beneficiario.pk.numeroDocumento}"></td>
+                    <td th:text="${beneficiario.tipoDocumento}"></td>
+                    <td th:text="${beneficiario.numeroDocumento}"></td>
                     <td th:text="${beneficiario.nombre}"></td>
-                    <td th:text="${#dates.format(beneficiario.fechaNacimiento, 'yyyy-MM-dd')}"></td>
-                    <td th:text="${beneficiario.direccionResidencia}"></td>
+                    <td th:text="${#dates.format(beneficiario.fechaDeNacimiento, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${beneficiario.direccionDeResidencia}"></td>
                     <td th:text="${beneficiario.parentesco}"></td>
                     <td th:text="${beneficiario.telefono}"></td>
                     <td>
-                        <a th:href="@{/beneficiario/{tipo}/{numero}/edit(tipo=${beneficiario.pk.tipoDocumento}, numero=${beneficiario.pk.numeroDocumento})}" class="btn btn-warning btn-sm">Editar</a>
-                        <a th:href="@{/beneficiario/{tipo}/{numero}/delete(tipo=${beneficiario.pk.tipoDocumento}, numero=${beneficiario.pk.numeroDocumento})}" 
-                            class="btn btn-danger btn-sm"
-                            onclick="return confirm('¿Seguro que deseas eliminar este beneficiario?');">
+                        <a th:href="@{'/beneficiario/' + ${beneficiario.tipoDocumento} + '/' + ${beneficiario.numeroDocumento} + '/edit'}"
+                           class="btn btn-warning btn-sm">Editar</a>
+                        <a th:href="@{'/beneficiario/' + ${beneficiario.tipoDocumento} + '/' + ${beneficiario.numeroDocumento} + '/delete'}"
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('¿Seguro que deseas eliminar este beneficiario?');">
                             Borrar
                         </a>
-
                     </td>
                 </tr>
             </th:block>
@@ -51,7 +51,6 @@
         <a th:href="@{/beneficiario/new}" class="btn btn-primary">Agregar Nuevo Beneficiario</a>
         <a th:href="@{/}" class="btn btn-secondary">Volver al Inicio</a>
         <a th:href="@{/beneficiario/rfc4/form}" class="btn btn-info">Consultar Citas de un Beneficiario</a>
-
     </div>
 </div>
 

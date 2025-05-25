@@ -6,44 +6,52 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
 </head>
 <body>
-    <div th:fragment="beneficiarioForm(titulo, beneficiario)" class="container border border-2 w-25">
+<div th:fragment="beneficiarioForm(titulo, beneficiario, contribuyentes)" class="container border border-2 w-25">
 
     <h1 class="text-center" th:text="${titulo}"></h1>
 
     <form th:object="${beneficiario}" method="post">
 
+        <!-- Solo muestra el ID si existe (edición), pero solo lectura -->
+        <div th:if="*{id != null}">
+            <label class="form-label">ID (solo lectura)</label>
+            <input class="form-control" type="text" th:field="*{id}" readonly />
+        </div>
+
         <label class="form-label">Tipo de Documento</label>
-        <input class="form-control" type="text" th:field="*{pk.tipoDocumento}" required />
+        <input class="form-control" type="text" th:field="*{tipoDocumento}" required />
 
         <label class="form-label">Número de Documento</label>
-        <input class="form-control" type="number" th:field="*{pk.numeroDocumento}" required />
+        <input class="form-control" type="text" th:field="*{numeroDocumento}" required />
 
         <label class="form-label">Nombre</label>
         <input class="form-control" type="text" th:field="*{nombre}" required />
 
         <label class="form-label">Fecha de Nacimiento</label>
-        <input class="form-control" type="date" th:field="*{fechaNacimiento}" required />
+        <input class="form-control" type="date" th:field="*{fechaDeNacimiento}" required />
 
         <label class="form-label">Dirección de Residencia</label>
-        <input class="form-control" type="text" th:field="*{direccionResidencia}" required />
+        <input class="form-control" type="text" th:field="*{direccionDeResidencia}" required />
 
         <label class="form-label">Teléfono</label>
-        <input class="form-control" type="number" th:field="*{telefono}" required />
+        <input class="form-control" type="text" th:field="*{telefono}" required />
 
         <label class="form-label">Parentesco</label>
         <input class="form-control" type="text" th:field="*{parentesco}" required />
 
-        <label class="col-form-label">Tipo Documento Contribuyente</label>
-        <input class="form-control" type="text" name="tipoDocContribuyente" required/>
-        
-        <label class="col-form-label">Número Documento Contribuyente</label>
-        <input class="form-control" type="number" name="numDocContribuyente" required/>        
+        <!-- Selección del Contribuyente al que se le asocia el beneficiario -->
+        <label class="col-form-label">Contribuyente</label>
+        <select class="form-control mb-3" name="contribuyenteId" required>
+            <option th:each="c : ${contribuyentes}" 
+                    th:value="${c.tipoDeDocumento + '-' + c.numeroDeDocumento}"
+                    th:text="${c.nombre + ' (' + c.tipoDeDocumento + ' ' + c.numeroDeDocumento + ')'}">
+            </option>
+        </select>
 
         <div class="text-center mt-3">
             <input type="submit" value="Guardar" class="btn btn-primary" />
             <a th:href="@{/beneficiario}" class="btn btn-secondary">Cancelar</a>
         </div>
-
     </form>
 </div>
 </body>

@@ -7,9 +7,12 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
 </head>
 <body>
-    <form action="#" th:action="@{/beneficiario/new/save}" th:object="${beneficiario}" method="post">
-        <div th:replace="~{fragments/beneficiarioForm :: beneficiarioForm(titulo='Crear beneficiario', beneficiario=${beneficiario})}">
-        </div>
+    <form th:action="@{/beneficiario/new/save}" th:object="${beneficiario}" method="post">
+        <div th:replace="~{fragments/beneficiarioForm :: beneficiarioForm(
+            titulo='Crear beneficiario',
+            beneficiario=${beneficiario},
+            contribuyentes=${contribuyentes}
+        )}"></div>
     </form>
 </body>
 </html>

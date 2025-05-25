@@ -7,27 +7,30 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
 </head>
 <body>
-    <div th:fragment="contribuyenteForm(titulo)" class="container border border-2 w-25">
-        <h1 class="text-center" th:text="${titulo}">
-
-        </h1>
-        <form>
+    <div th:fragment="contribuyenteForm(titulo, contribuyente)" class="container border border-2 w-25">
+        <h1 class="text-center" th:text="${titulo}"></h1>
+        <form th:object="${contribuyente}" autocomplete="off">
             <label class="col-form-label">Nombre</label>
-            <input class="form-control" type="text" id="nombre" name="nombre" required th:value="${contribuyente.nombre}"/>
-            <label class="col-form-label">fechaNacimiento</label>
-            <input class="form-control" type="text" id="fechaNacimiento" name="fechaNacimiento" required th:value="${contribuyente.fechaNacimiento}" placeholder="yyyy-MM-dd"/>
-            <label class="col-form-label">Direccion</label>
-            <input class="form-control" type="text" id="direccionResidencia" name="direccionResidencia" required th:value="${contribuyente.direccionResidencia}"/>
-            <label class="col-form-label">Telefono</label>
-            <input class="form-control" type="text" id="telefono" name="telefono" required th:value="${contribuyente.telefono}"/>
-            <label class="col-form-label">Tipo de Documento</label>
-            <input class="form-control" type="text" id="tipoDocumento" name="pk.tipoDocumento" required th:value="${contribuyente.pk.tipoDocumento}"/>
-            <label class="col-form-label">Número de Documento</label>
-            <input class="form-control" type="text" id="numeroDocumento" name="pk.numeroDocumento" required th:value="${contribuyente.pk.numeroDocumento}"/>
+            <input class="form-control" type="text" th:field="*{nombre}" required/>
 
-            <div class="text-center">
+            <label class="col-form-label">Fecha de Nacimiento</label>
+            <input class="form-control" type="date" th:field="*{fechaDeNacimiento}" required placeholder="yyyy-MM-dd"/>
+
+            <label class="col-form-label">Dirección de Residencia</label>
+            <input class="form-control" type="text" th:field="*{direccionDeResidencia}" required/>
+
+            <label class="col-form-label">Teléfono</label>
+            <input class="form-control" type="text" th:field="*{telefono}" required/>
+
+            <label class="col-form-label">Tipo de Documento</label>
+            <input class="form-control" type="text" th:field="*{pk.tipoDocumento}" required/>
+
+            <label class="col-form-label">Número de Documento</label>
+            <input class="form-control" type="text" th:field="*{pk.numeroDocumento}" required/>
+
+            <div class="text-center mt-3">
                 <input type="submit" value="Guardar" class="btn btn-primary"/>
-                <a th:href="@{/contribuyente}" class="btn btn-primary">Cancelar</a>
+                <a th:href="@{/contribuyente}" class="btn btn-secondary">Cancelar</a>
             </div>
         </form>
     </div>

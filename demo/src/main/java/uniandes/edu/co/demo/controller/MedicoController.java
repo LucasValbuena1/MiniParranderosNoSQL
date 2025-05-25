@@ -1,7 +1,7 @@
 package uniandes.edu.co.demo.controller;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,87 +10,68 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.servlet.http.HttpServletRequest;
 import uniandes.edu.co.demo.modelo.Medico;
 import uniandes.edu.co.demo.servicios.MedicoServicio;
 
 @Controller
+@RequestMapping("/medico")
 public class MedicoController {
+
     @Autowired
     private MedicoServicio servicio;
 
-    @GetMapping("/medico")
-    public String show(Model m) {
-        m.addAttribute("medicos", servicio.darMedicos());
+    @GetMapping
+    public String show(Model model) {
+        model.addAttribute("medicos", servicio.darMedicos());
         return "medicos";
     }
 
-    @GetMapping("/medico/new")
-    public String formNew(Model m) {
-        m.addAttribute("medico", new Medico());
+    @GetMapping("/new")
+    public String formNew(Model model) {
+        model.addAttribute("medico", new Medico());
         return "medicoNuevo";
     }
 
-    @PostMapping("/medico/new/save")
-    public String save(HttpServletRequest request) {
-        Medico m = new Medico();
+    @PostMapping("/new/save")
+    public String save(
+            @ModelAttribute Medico medico,
+            @RequestParam("especialidadesInput") String especialidadesInput,
+            @RequestParam("IPSAsociadaInput") Integer ipsId
+    ) {
+        // convierto la cadena "A, B, C" en lista
+        List<String> listaEsp = Arrays.stream(especialidadesInput.split(","))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .collect(Collectors.toList());
+        medico.setEspecialidades(listaEsp);
 
-        try {
-            m.setId(Integer.parseInt(request.getParameter("id")));
-            m.setNombre(request.getParameter("nombre"));
-            m.setTipoDeDocumento(request.getParameter("tipoDeDocumento"));
-            m.setNumeroDeDocumento(request.getParameter("numeroDeDocumento"));
-            m.setNumeroRegistroMedico(request.getParameter("numeroRegistroMedico"));
+        // si sólo es un ID de IPS
+        medico.setIPSAsociada(Collections.singletonList(ipsId));
 
-            // Especialidades
-            String especialidadesStr = request.getParameter("especialidadesInput");
-            List<String> especialidadesList = Arrays.stream(especialidadesStr.split(","))
-                    .map(String::trim)
-                    .filter(s -> !s.isEmpty())
-                    .collect(Collectors.toList());
-            m.setEspecialidades(especialidadesList);
+        // aquí no toco el ID: lo genera MedicoServicio
+        servicio.insertarMedico(medico);
 
-            // IPSAsociada
-            String ipsStr = request.getParameter("IPSAsociadaInput");
-            List<Integer> ipsList = new ArrayList<>();
-            if (ipsStr != null && !ipsStr.isEmpty()) {
-                ipsList.add(Integer.parseInt(ipsStr));
-            }
-            m.setIPSAsociada(ipsList);
+        return "redirect:/medico";
+    }
 
-            // Validación mínima
-            if (m.getId() == null || m.getNombre() == null || m.getTipoDeDocumento() == null ||
-                    m.getNumeroDeDocumento() == null || m.getNumeroRegistroMedico() == null ||
-                    m.getEspecialidades().isEmpty() || m.getIPSAsociada().isEmpty()) {
-                return "redirect:/medico/new?error=faltan_campos";
-            }
-
-            servicio.insertarMedico(m);
+    @GetMapping("/{numeroRegistroMedico}/edit")
+    public String formEdit(@PathVariable Integer numeroRegistroMedico, Model model) {
+        Medico m = servicio.darMedico(numeroRegistroMedico);
+        if (m == null) {
             return "redirect:/medico";
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return "redirect:/medico/new?error=error_interno";
         }
+        model.addAttribute("medico", m);
+        return "medicoEditar";
     }
 
-    @GetMapping("/medico/{numeroRegistroMedico}/edit")
-    public String formEdit(@PathVariable Integer numeroRegistroMedico, Model m) {
-        Medico dc = servicio.darMedico(numeroRegistroMedico);
-        if (dc != null) {
-            m.addAttribute("medico", dc);
-            return "medicoEditar";
-        }
+    @PostMapping("/{numeroRegistroMedico}/edit/save")
+    public String update(@ModelAttribute Medico medico) {
+        servicio.actualizarMedico(medico);
         return "redirect:/medico";
     }
 
-    @PostMapping("/medico/{numeroRegistroMedico}/edit/save")
-    public String update(@ModelAttribute Medico m) {
-        servicio.actualizarMedico(m);
-        return "redirect:/medico";
-    }
-
-    @GetMapping("/medico/{numeroRegistroMedico}/delete")
-    public String del(@PathVariable Integer numeroRegistroMedico) {
+    @GetMapping("/{numeroRegistroMedico}/delete")
+    public String delete(@PathVariable Integer numeroRegistroMedico) {
         servicio.eliminarMedico(numeroRegistroMedico);
         return "redirect:/medico";
     }

@@ -15,8 +15,9 @@ public class ContribuyenteServicio {
         return repo.findAll();
     }
 
-    public Contribuyente darContribuyente(String t, String n) {
-        return repo.findByPkTipoDocumentoAndPkNumeroDocumento(t, n);
+    // Cambiado: busca por los campos correctos, como están en MongoDB
+    public Contribuyente darContribuyente(String tipoDeDocumento, String numeroDeDocumento) {
+        return repo.findByTipoDeDocumentoAndNumeroDeDocumento(tipoDeDocumento, numeroDeDocumento);
     }
 
     public void insertarContribuyente(Contribuyente c) {
@@ -29,7 +30,7 @@ public class ContribuyenteServicio {
         repo.save(c);
     }
 
-    public void eliminarContribuyente(String t, String n) {
-        repo.deleteById(t + "-" + n);
+    public void eliminarContribuyente(String tipoDeDocumento, String numeroDeDocumento) {
+        repo.deleteById(tipoDeDocumento + "-" + numeroDeDocumento);
     }
 }

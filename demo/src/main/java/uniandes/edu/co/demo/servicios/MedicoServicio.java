@@ -19,7 +19,16 @@ public class MedicoServicio {
         return repo.findByNumeroRegistroMedico(id);
     }
 
-    public void insertarMedico(Medico m) {
+     public void insertarMedico(Medico m) {
+        if (m.getId() == null) {
+            Integer maxId = repo.findAll()
+                .stream()
+                .map(Medico::getId)
+                .filter(i -> i != null)
+                .max(Integer::compareTo)
+                .orElse(0);
+            m.setId(maxId + 1);
+        }
         repo.save(m);
     }
 

@@ -3,70 +3,84 @@ package uniandes.edu.co.demo.controller;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import uniandes.edu.co.demo.modelo.ServicioDeSalud;
 import uniandes.edu.co.demo.servicios.ServicioDeSaludServicio;
 
 @Controller
+@RequestMapping("/servicio")
 public class ServicioDeSaludController {
+
     @Autowired
     private ServicioDeSaludServicio servicio;
 
-    @GetMapping("/servicio")
+    /** Listado de todos los servicios */
+    @GetMapping
     public String show(Model m) {
         m.addAttribute("servicios", servicio.darServicios());
         return "serviciosDeSalud";
     }
 
-    @GetMapping("/servicio/new")
+    /** Formulario para crear uno nuevo */
+    @GetMapping("/new")
     public String formNew(Model m) {
         m.addAttribute("servicio", new ServicioDeSalud());
         return "servicioDeSaludNuevo";
     }
 
-    @PostMapping("/servicio/new/save")
-    public String save(@ModelAttribute ServicioDeSalud s) {
+    /** Procesar creación */
+    @PostMapping("/new/save")
+    public String saveNew(@ModelAttribute("servicio") ServicioDeSalud s) {
         servicio.insertarServicio(s);
         return "redirect:/servicio";
     }
 
-    @GetMapping("/servicio/{idServicio}/edit")
+    /** Formulario de edición */
+    @GetMapping("/{idServicio}/edit")
     public String formEdit(@PathVariable Integer idServicio, Model m) {
-        ServicioDeSalud sd = servicio.darServicio(idServicio);
-        if (sd != null) {
-            m.addAttribute("servicio", sd);
+        ServicioDeSalud s = servicio.darServicio(idServicio);
+        if (s != null) {
+            m.addAttribute("servicio", s);
             return "servicioDeSaludEditar";
         }
         return "redirect:/servicio";
     }
 
-    @PostMapping("/servicio/{idServicio}/edit/save")
-    public String update(@ModelAttribute ServicioDeSalud s) {
+    /** Procesar edición */
+    @PostMapping("/{idServicio}/edit/save")
+    public String saveEdit(@ModelAttribute("servicio") ServicioDeSalud s) {
         servicio.actualizarServicio(s);
         return "redirect:/servicio";
     }
 
-    @GetMapping("/servicio/{idServicio}/delete")
-    public String del(@PathVariable Integer idServicio) {
+    /** Eliminar */
+    @GetMapping("/{idServicio}/delete")
+    public String delete(@PathVariable Integer idServicio) {
         servicio.eliminarServicio(idServicio);
         return "redirect:/servicio";
     }
 
-    @GetMapping("/servicio/{idServicio}/disponibilidad")
-    public String disp(@PathVariable Integer idServicio, Model m) {
+    /** Consultar disponibilidad de un servicio */
+    @GetMapping("/{idServicio}/disponibilidad")
+    public String disponibilidad(@PathVariable Integer idServicio, Model m) {
         List<Object[]> filas = servicio.consultarDisponibilidad(idServicio);
-        List<Map<String, Object>> res = filas.stream().map(f -> {
-            Map<String, Object> mp = new java.util.LinkedHashMap<>();
-            mp.put("servicio", f[0]);
-            mp.put("disponibilidad", f[1]);
-            mp.put("ips", f[2]);
-            mp.put("medico", f[3]);
-            return mp;
-        }).collect(Collectors.toList());
-        m.addAttribute("resultados", res);
+        List<Map<String, Object>> resultados = filas.stream()
+            .map(f -> {
+                Map<String, Object> mp = new java.util.LinkedHashMap<>();
+                mp.put("servicio",     f[0]);
+                mp.put("disponibilidad", f[1]);
+                mp.put("ips",          f[2]);
+                mp.put("medico",       f[3]);
+                return mp;
+            })
+            .collect(Collectors.toList());
+
+        m.addAttribute("resultados", resultados);
         m.addAttribute("idServicio", idServicio);
         return "disponibilidadServicio";
     }

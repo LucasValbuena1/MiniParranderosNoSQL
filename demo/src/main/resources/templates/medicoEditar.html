@@ -1,16 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar medico</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Médico</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
 </head>
 <body>
-    <form th:action="@{'/medico/' + ${medico.numeroRegistroMedico} + '/edit/save'}" th:object="${medico}" method="post">
-        <div th:replace="~{fragments/medicoForm :: medicoForm(titulo='Editar medico', medico=${medico})}">
-            
-        </div>
-    </form>
+  <form
+    th:action="@{'/medico/' + ${medico.numeroRegistroMedico} + '/edit/save'}"
+    th:object="${medico}"
+    method="post"
+    class="container mt-5"
+  >
+    <div
+      th:replace="~{fragments/MedicoFormFragment :: medicoForm(
+                    'Editar Médico',
+                    medico=${medico}
+                  )}"
+    ></div>
+  </form>
 </body>
 </html>

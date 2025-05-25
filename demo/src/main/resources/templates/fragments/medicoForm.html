@@ -7,27 +7,66 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
 </head>
 <body>
-    <div th:fragment="medicoForm(titulo)" class="container border border-2 w-50">
-        <h1 class="text-center" th:text="${titulo}"></h1>
-        <label class="col-form-label">Número Registro Médico</label>
-        <input class="form-control" type="text" th:field="*{numeroRegistroMedico}" required />
+<!-- src/main/resources/templates/fragments/MedicoFormFragment.html -->
+<div th:fragment="medicoForm(titulo, medico)" th:object="${medico}" class="container border border-2 rounded w-50 p-4 mt-4">
+  <h1 class="text-center mb-4" th:text="${titulo}"></h1>
 
-        <label class="col-form-label">Número Documento</label>
-        <input class="form-control" type="text" th:field="*{numeroDeDocumento}" required />
+  <!-- Número de Registro Médico -->
+  <div class="mb-3">
+    <label class="form-label">Número de Registro Médico</label>
+    <input type="text"
+           class="form-control"
+           th:field="*{numeroRegistroMedico}"
+           placeholder="Ingrese número de registro"
+           required />
+  </div>
 
-        <label class="col-form-label">Nombre</label>
-        <input class="form-control" type="text" th:field="*{nombre}" required />
+  <!-- Número de Documento -->
+  <div class="mb-3">
+    <label class="form-label">Número de Documento</label>
+    <input type="text"
+           class="form-control"
+           th:field="*{numeroDeDocumento}"
+           placeholder="Ingrese número de documento"
+           required />
+  </div>
 
-        <label class="col-form-label">Especialidad</label>
-        <input class="form-control" type="text" th:field="*{especialidad}" required />
+  <!-- Nombre -->
+  <div class="mb-3">
+    <label class="form-label">Nombre</label>
+    <input type="text"
+           class="form-control"
+           th:field="*{nombre}"
+           placeholder="Ingrese nombre completo"
+           required />
+  </div>
 
-        <label class="col-form-label">Tipo Documento</label>
-        <input class="form-control" type="text" th:field="*{tipoDocumento}" required />
+  <!-- Especialidad -->
+  <div class="mb-3">
+    <label class="form-label">Especialidad</label>
+    <input type="text"
+           class="form-control"
+           th:field="*{especialidad}"
+           placeholder="Ej: Medicina General"
+           required />
+  </div>
 
-        <div class="text-center mt-3">
-            <input type="submit" value="Guardar" class="btn btn-primary" />
-            <a th:href="@{/medico}" class="btn btn-secondary">Cancelar</a>
-        </div>
-    </div>
+  <!-- Tipo Documento -->
+  <div class="mb-3">
+    <label class="form-label">Tipo de Documento</label>
+    <input type="text"
+           class="form-control"
+           th:field="*{tipoDocumento}"
+           placeholder="Ej: CC, TI"
+           required />
+  </div>
+
+  <!-- Botones -->
+  <div class="d-flex justify-content-between mt-4">
+    <a th:href="@{/medico}" class="btn btn-secondary">Cancelar</a>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+  </div>
+</div>
+
 </body>
 </html>

@@ -8,7 +8,7 @@
 </head>
 <body>
     <form th:action="@{/contribuyente/new/save}" method="post" th:object="${contribuyente}">
-        <div th:replace="~{fragments/contribuyenteForm :: contribuyenteForm(titulo='Crear contribuyente')}"></div>
+        <div th:replace="~{fragments/contribuyenteForm :: contribuyenteForm(titulo='Crear contribuyente', contribuyente=${contribuyente})}"></div>
     </form>
 </body>
 </html>

@@ -15,11 +15,17 @@ public class ServiciosDeUnaIPSServicio {
         return repo.findAll();
     }
 
-    public void insertarServicio(ServiciosDeUnaIPS s) {
-        repo.save(s);
+    public void insertarServicio(ServiciosDeUnaIPS servicio) {
+        repo.save(servicio);
     }
 
+    // Eliminar por id compuesto (nitIPS-idServicio)
     public void eliminarServicio(String id) {
         repo.deleteById(id);
+    }
+
+    // Eliminar por nit y servicio
+    public void eliminarPorNitYServicio(String nitIPS, String idServicio) {
+        repo.deleteByNitIPSAndIdServicio(nitIPS, idServicio);
     }
 }

@@ -22,10 +22,10 @@
         <tbody>
             <th:block th:each="servicio : ${servicios}">
                 <tr>
-                    <td th:text="${servicio.pk.nitIPS.nit}"></td>
-                    <td th:text="${servicio.pk.idServicio.idServicio}"></td>
+                    <td th:text="${servicio.nitIPS}"></td>
+                    <td th:text="${servicio.idServicio}"></td>
                     <td>
-                        <a th:href="@{/serviciosDeUnaIPS/{nitIPS}/{idServicio}/delete(nitIPS=${servicio.pk.nitIPS.nit}, idServicio=${servicio.pk.idServicio.idServicio})}" 
+                        <a th:href="@{/serviciosDeUnaIPS/{nitIPS}/{idServicio}/delete(nitIPS=${servicio.nitIPS}, idServicio=${servicio.idServicio})}" 
                            class="btn btn-danger btn-sm"
                            onclick="return confirm('¿Estás seguro de eliminar esta asignación?');">Borrar</a>
                     </td>

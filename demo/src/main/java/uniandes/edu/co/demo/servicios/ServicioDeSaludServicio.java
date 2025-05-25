@@ -43,7 +43,16 @@ public class ServicioDeSaludServicio {
     /**
      * Inserta un nuevo servicio.
      */
-    public void insertarServicio(ServicioDeSalud s) {
+     public void insertarServicio(ServicioDeSalud s) {
+        if (s.getIdServicio() == null) {
+            // calcula el máximo id actual
+            Integer maxId = repo.findAll()
+                                .stream()
+                                .map(ServicioDeSalud::getIdServicio)
+                                .max(Integer::compareTo)
+                                .orElse(0);
+            s.setIdServicio(maxId + 1);
+        }
         repo.save(s);
     }
 
