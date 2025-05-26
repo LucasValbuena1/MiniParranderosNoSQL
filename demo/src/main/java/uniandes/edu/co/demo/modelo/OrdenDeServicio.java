@@ -8,49 +8,100 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class OrdenDeServicio {
 
     @Id
-    private Integer idOrden;                          // _id:int
+    private Integer idOrden; // Ahora el ID es forzado manualmente
 
-    private List<Integer> serviciosMedicos;           // [_id.servicioDeSalud]
-    private String estado;                            // estado:String
-    private String vigencia;                          // vigencia:String
+    private List<Integer> serviciosMedicos;
+    private String estado;
+    private String vigencia;
 
-    private Integer medicoAsociado;                   // [_id.medico]
+    private Integer medicoAsociado;
+    private Paciente paciente;
+    private List<Integer> IPS;
 
-    private Paciente paciente;                        // [_id.contribuyente/_id.beneficiario]
+    public Integer getIdOrden() {
+        return idOrden;
+    }
 
-    private List<Integer> IPS;                        // [_id.IPS]
+    public void setIdOrden(Integer idOrden) {
+        this.idOrden = idOrden;
+    }
 
-    // Getters y setters
-    public Integer getIdOrden() { return idOrden; }
-    public void setIdOrden(Integer idOrden) { this.idOrden = idOrden; }
+    public List<Integer> getServiciosMedicos() {
+        return serviciosMedicos;
+    }
 
-    public List<Integer> getServiciosMedicos() { return serviciosMedicos; }
-    public void setServiciosMedicos(List<Integer> serviciosMedicos) { this.serviciosMedicos = serviciosMedicos; }
+    public void setServiciosMedicos(List<Integer> serviciosMedicos) {
+        this.serviciosMedicos = serviciosMedicos;
+    }
 
-    public String getEstado() { return estado; }
-    public void setEstado(String estado) { this.estado = estado; }
+    public String getEstado() {
+        return estado;
+    }
 
-    public String getVigencia() { return vigencia; }
-    public void setVigencia(String vigencia) { this.vigencia = vigencia; }
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
 
-    public Integer getMedicoAsociado() { return medicoAsociado; }
-    public void setMedicoAsociado(Integer medicoAsociado) { this.medicoAsociado = medicoAsociado; }
+    public String getVigencia() {
+        return vigencia;
+    }
 
-    public Paciente getPaciente() { return paciente; }
-    public void setPaciente(Paciente paciente) { this.paciente = paciente; }
+    public void setVigencia(String vigencia) {
+        this.vigencia = vigencia;
+    }
 
-    public List<Integer> getIPS() { return IPS; }
-    public void setIPS(List<Integer> IPS) { this.IPS = IPS; }
+    public Integer getMedicoAsociado() {
+        return medicoAsociado;
+    }
 
-    // Clase embebida para el paciente
+    public void setMedicoAsociado(Integer medicoAsociado) {
+        this.medicoAsociado = medicoAsociado;
+    }
+
+    public Paciente getPaciente() {
+        return paciente;
+    }
+
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
+    }
+
+    public List<Integer> getIPS() {
+        return IPS;
+    }
+
+    public void setIPS(List<Integer> IPS) {
+        this.IPS = IPS;
+    }
+
+    // Clase anidada embebida para el paciente
     public static class Paciente {
         private Integer contribuyenteId;
         private Integer beneficiarioId;
 
-        public Integer getContribuyenteId() { return contribuyenteId; }
-        public void setContribuyenteId(Integer contribuyenteId) { this.contribuyenteId = contribuyenteId; }
+        public Integer getContribuyenteId() {
+            return contribuyenteId;
+        }
 
-        public Integer getBeneficiarioId() { return beneficiarioId; }
-        public void setBeneficiarioId(Integer beneficiarioId) { this.beneficiarioId = beneficiarioId; }
+        public void setContribuyenteId(Integer contribuyenteId) {
+            this.contribuyenteId = contribuyenteId;
+        }
+
+        public Integer getBeneficiarioId() {
+            return beneficiarioId;
+        }
+
+        public void setBeneficiarioId(Integer beneficiarioId) {
+            this.beneficiarioId = beneficiarioId;
+        }
+
+        // Métodos auxiliares para adaptarse al schema
+        public Integer getId() {
+            return contribuyenteId != null ? contribuyenteId : beneficiarioId;
+        }
+
+        public String getTipo() {
+            return contribuyenteId != null ? "contribuyente" : "beneficiario";
+        }
     }
 }
