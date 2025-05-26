@@ -16,17 +16,17 @@ public class MedicoServicio {
     }
 
     public Medico darMedico(Integer id) {
-        return repo.findByNumeroRegistroMedico(id);
+        return repo.findById(id).orElse(null);
     }
 
-     public void insertarMedico(Medico m) {
+    public void insertarMedico(Medico m) {
         if (m.getId() == null) {
             Integer maxId = repo.findAll()
-                .stream()
-                .map(Medico::getId)
-                .filter(i -> i != null)
-                .max(Integer::compareTo)
-                .orElse(0);
+                    .stream()
+                    .map(Medico::getId)
+                    .filter(i -> i != null)
+                    .max(Integer::compareTo)
+                    .orElse(0);
             m.setId(maxId + 1);
         }
         repo.save(m);
