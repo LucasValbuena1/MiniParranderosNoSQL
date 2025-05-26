@@ -72,10 +72,10 @@ public class ServicioDeSaludController {
         List<Map<String, Object>> resultados = filas.stream()
             .map(f -> {
                 Map<String, Object> mp = new java.util.LinkedHashMap<>();
-                mp.put("servicio",     f[0]);
+                mp.put("servicio",       f[0]);
                 mp.put("disponibilidad", f[1]);
-                mp.put("ips",          f[2]);
-                mp.put("medico",       f[3]);
+                mp.put("ips",            f[2]);
+                mp.put("medico",         f[3]);
                 return mp;
             })
             .collect(Collectors.toList());
@@ -83,5 +83,24 @@ public class ServicioDeSaludController {
         m.addAttribute("resultados", resultados);
         m.addAttribute("idServicio", idServicio);
         return "disponibilidadServicio";
+    }
+
+    /** Mostrar formulario Top 20 Servicios Más Solicitados */
+    @GetMapping("/rfc2/form")
+    public String mostrarFormTop20() {
+        return "formularioRFC2";
+    }
+
+    /** Procesar consulta Top 20 Servicios Más Solicitados */
+    @PostMapping("/rfc2/consultar")
+    public String consultarTop20(
+            @RequestParam("fechaInicio") String fechaInicio,
+            @RequestParam("fechaFin")    String fechaFin,
+            Model model) {
+
+        // Llama al servicio que implementa la agregación en MongoDB
+        List<Object[]> resultados = servicio.obtenerTop20Servicios(fechaInicio, fechaFin);
+        model.addAttribute("resultados", resultados);
+        return "resultadoRFC2";
     }
 }
