@@ -1,107 +1,56 @@
 package uniandes.edu.co.demo.modelo;
 
+import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "ORDENES_DE_SERVICIO")
 public class OrdenDeServicio {
+
     @Id
-    private Integer idOrden;
-    private String medicoAsociado;
-    private String servicioMedico;
-    private String estado;
-    private String vigencia;
-    private String tipoDocContribuyente;
-    private String numDocContribuyente;
-    private String tipoDocBeneficiario;
-    private String numDocBeneficiario;
+    private Integer idOrden;                          // _id:int
 
-    public OrdenDeServicio() {
-    }
+    private List<Integer> serviciosMedicos;           // [_id.servicioDeSalud]
+    private String estado;                            // estado:String
+    private String vigencia;                          // vigencia:String
 
-    public OrdenDeServicio(Integer idOrden, String medicoAsociado, String servicioMedico, String estado,
-            String vigencia, String tipoDocContribuyente, String numDocContribuyente, String tipoDocBeneficiario,
-            String numDocBeneficiario) {
-        this.idOrden = idOrden;
-        this.medicoAsociado = medicoAsociado;
-        this.servicioMedico = servicioMedico;
-        this.estado = estado;
-        this.vigencia = vigencia;
-        this.tipoDocContribuyente = tipoDocContribuyente;
-        this.numDocContribuyente = numDocContribuyente;
-        this.tipoDocBeneficiario = tipoDocBeneficiario;
-        this.numDocBeneficiario = numDocBeneficiario;
-    }
+    private Integer medicoAsociado;                   // [_id.medico]
 
-    public Integer getIdOrden() {
-        return idOrden;
-    }
+    private Paciente paciente;                        // [_id.contribuyente/_id.beneficiario]
 
-    public void setIdOrden(Integer idOrden) {
-        this.idOrden = idOrden;
-    }
+    private List<Integer> IPS;                        // [_id.IPS]
 
-    public String getMedicoAsociado() {
-        return medicoAsociado;
-    }
+    // Getters y setters
+    public Integer getIdOrden() { return idOrden; }
+    public void setIdOrden(Integer idOrden) { this.idOrden = idOrden; }
 
-    public void setMedicoAsociado(String medicoAsociado) {
-        this.medicoAsociado = medicoAsociado;
-    }
+    public List<Integer> getServiciosMedicos() { return serviciosMedicos; }
+    public void setServiciosMedicos(List<Integer> serviciosMedicos) { this.serviciosMedicos = serviciosMedicos; }
 
-    public String getServicioMedico() {
-        return servicioMedico;
-    }
+    public String getEstado() { return estado; }
+    public void setEstado(String estado) { this.estado = estado; }
 
-    public void setServicioMedico(String servicioMedico) {
-        this.servicioMedico = servicioMedico;
-    }
+    public String getVigencia() { return vigencia; }
+    public void setVigencia(String vigencia) { this.vigencia = vigencia; }
 
-    public String getEstado() {
-        return estado;
-    }
+    public Integer getMedicoAsociado() { return medicoAsociado; }
+    public void setMedicoAsociado(Integer medicoAsociado) { this.medicoAsociado = medicoAsociado; }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
+    public Paciente getPaciente() { return paciente; }
+    public void setPaciente(Paciente paciente) { this.paciente = paciente; }
 
-    public String getVigencia() {
-        return vigencia;
-    }
+    public List<Integer> getIPS() { return IPS; }
+    public void setIPS(List<Integer> IPS) { this.IPS = IPS; }
 
-    public void setVigencia(String vigencia) {
-        this.vigencia = vigencia;
-    }
+    // Clase embebida para el paciente
+    public static class Paciente {
+        private Integer contribuyenteId;
+        private Integer beneficiarioId;
 
-    public String getTipoDocContribuyente() {
-        return tipoDocContribuyente;
-    }
+        public Integer getContribuyenteId() { return contribuyenteId; }
+        public void setContribuyenteId(Integer contribuyenteId) { this.contribuyenteId = contribuyenteId; }
 
-    public void setTipoDocContribuyente(String tipoDocContribuyente) {
-        this.tipoDocContribuyente = tipoDocContribuyente;
-    }
-
-    public String getNumDocContribuyente() {
-        return numDocContribuyente;
-    }
-
-    public void setNumDocContribuyente(String numDocContribuyente) {
-        this.numDocContribuyente = numDocContribuyente;
-    }
-
-    public String getTipoDocBeneficiario() {
-        return tipoDocBeneficiario;
-    }
-
-    public void setTipoDocBeneficiario(String tipoDocBeneficiario) {
-        this.tipoDocBeneficiario = tipoDocBeneficiario;
-    }
-
-    public String getNumDocBeneficiario() {
-        return numDocBeneficiario;
-    }
-
-    public void setNumDocBeneficiario(String numDocBeneficiario) {
-        this.numDocBeneficiario = numDocBeneficiario;
+        public Integer getBeneficiarioId() { return beneficiarioId; }
+        public void setBeneficiarioId(Integer beneficiarioId) { this.beneficiarioId = beneficiarioId; }
     }
 }

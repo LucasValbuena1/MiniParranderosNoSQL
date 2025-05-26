@@ -1,52 +1,82 @@
+<!-- src/main/resources/templates/fragments/ordenservicioForm.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>fragmento</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+  <meta charset="UTF-8">
 </head>
 <body>
-    <div th:fragment="ordenservicioForm(titulo, ordenservicio)" class="container border border-2 w-50 p-4">
-        <h1 class="text-center" th:text="${titulo}"></h1>
-        <form method="post" th:action="@{/ordenservicio/new/save}">
-            
-            <label class="col-form-label">Medico Asociado</label>
-            <input class="form-control" type="number" id="medicoAsociado" name="medicoAsociado" required th:value="${ordenservicio.medicoAsociado}"/>
+  <div th:fragment="ordenservicioForm(titulo, ordenservicio)" class="container border border-2 w-50 p-4">
+    <h1 class="text-center" th:text="${titulo}">Título</h1>
 
-            <label class="col-form-label">Servicio Médico</label>
-            <input class="form-control" type="text" id="servicioMedico" name="servicioMedico" required th:value="${ordenservicio.servicioMedico}"/>
-
-            <label class="col-form-label">Estado</label>
-            <select class="form-control" id="estado" name="estado" required>
-                <option value="Vigente" th:selected="${ordenservicio.estado == 'Vigente'}">Vigente</option>
-                <option value="Cancelada" th:selected="${ordenservicio.estado == 'Cancelada'}">Cancelada</option>
-                <option value="Completada" th:selected="${ordenservicio.estado == 'Completada'}">Completada</option>
-            </select>
-
-            <label class="col-form-label">Vigencia</label>
-            <select class="form-control" id="vigencia" name="vigencia" required>
-                <option value="Vigente" th:selected="${ordenservicio.vigencia == 'Vigente'}">Vigente</option>
-                <option value="Vencida" th:selected="${ordenservicio.vigencia == 'Vencida'}">Vencida</option>
-            </select>
-
-            <label class="col-form-label">Tipo Documento Contribuyente</label>
-            <input class="form-control" type="text" id="tipoDocContribuyente" name="tipoDocContribuyente" required th:value="${ordenservicio.tipoDocContribuyente}"/>
-
-            <label class="col-form-label">Número Documento Contribuyente</label>
-            <input class="form-control" type="number" id="numDocContribuyente" name="numDocContribuyente" required th:value="${ordenservicio.numDocContribuyente}"/>
-
-            <label class="col-form-label">Tipo Documento Beneficiario</label>
-            <input class="form-control" type="text" id="tipoDocBeneficiario" name="tipoDocBeneficiario" required th:value="${ordenservicio.tipoDocBeneficiario}"/>
-
-            <label class="col-form-label">Número Documento Beneficiario</label>
-            <input class="form-control" type="number" id="numDocBeneficiario" name="numDocBeneficiario" required th:value="${ordenservicio.numDocBeneficiario}"/>
-
-            <div class="text-center mt-3">
-                <input type="submit" value="Guardar" class="btn btn-primary"/>
-                <a th:href="@{/ordenservicio}" class="btn btn-secondary">Cancelar</a>
-            </div>
-        </form>
+    <!-- Médico Asociado -->
+    <div class="mb-3">
+      <label class="form-label">Médico Asociado (ID)</label>
+      <input class="form-control" type="number" name="medicoAsociado"
+             th:value="${ordenservicio.medicoAsociado}" required />
     </div>
+
+    <!-- Servicios Médicos -->
+    <div class="mb-3">
+      <label class="form-label">Servicios Médicos (IDs separados por coma)</label>
+      <input class="form-control" type="text" name="serviciosMedicosInput"
+             th:value="${#lists.isEmpty(ordenservicio.serviciosMedicos) ? '' : #strings.listJoin(ordenservicio.serviciosMedicos, ',')}"
+             placeholder="ej: 1,2,3" required />
+    </div>
+
+    <!-- Estado -->
+    <div class="mb-3">
+      <label class="form-label">Estado</label>
+      <select class="form-select" name="estado" required>
+        <option value="Activa"    th:selected="${ordenservicio.estado=='Activa'}">Activa</option>
+        <option value="Cancelada" th:selected="${ordenservicio.estado=='Cancelada'}">Cancelada</option>
+        <option value="Finalizada"th:selected="${ordenservicio.estado=='Finalizada'}">Finalizada</option>
+      </select>
+    </div>
+
+    <!-- Vigencia -->
+    <div class="mb-3">
+      <label class="form-label">Vigencia</label>
+      <input class="form-control" type="date" name="vigencia"
+             th:value="${ordenservicio.vigencia}" required />
+    </div>
+
+    <!-- Paciente: tipo y ID -->
+    <div class="row mb-3">
+      <div class="col">
+        <label class="form-label">Tipo de Paciente</label>
+        <select class="form-select" name="pacienteTipo" required>
+          <option value="contribuyente"
+            th:selected="${ordenservicio.paciente.contribuyenteId != null}">
+            Contribuyente
+          </option>
+          <option value="beneficiario"
+            th:selected="${ordenservicio.paciente.beneficiarioId != null}">
+            Beneficiario
+          </option>
+        </select>
+      </div>
+      <div class="col">
+        <label class="form-label">ID Paciente</label>
+        <input class="form-control" type="number" name="pacienteId"
+               th:value="${ordenservicio.paciente.contribuyenteId != null
+                         ? ordenservicio.paciente.contribuyenteId
+                         : ordenservicio.paciente.beneficiarioId}"
+               required />
+      </div>
+    </div>
+
+    <!-- IPS Asociadas -->
+    <div class="mb-3">
+      <label class="form-label">IPS Asociadas (ID)</label>
+      <input class="form-control" type="number" name="IPSInput"
+             th:value="${#lists.isEmpty(ordenservicio.IPS) ? '' : ordenservicio.IPS[0]}"
+             required />
+    </div>
+
+    <div class="text-center mt-3">
+      <button type="submit" class="btn btn-success">Guardar</button>
+      <a th:href="@{/ordenservicio}" class="btn btn-secondary">Cancelar</a>
+    </div>
+  </div>
 </body>
 </html>

@@ -1,49 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>fragmento</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+  <meta charset="UTF-8" />
 </head>
 <body>
-    <div th:fragment="citaForm(titulo)" class="container border border-2 w-50">
-        <h1 class="text-center" th:text="${titulo}"></h1>
-        <form th:object="${cita}" method="post">
-            <label class="col-form-label">ID de la Cita</label>
-            <input class="form-control" type="number" id="idCita" name="idCita" required th:value="*{idCita}" />
+  <div th:fragment="citaForm(titulo)" class="container border border-2 w-50 p-4">
+    <h2 class="mb-4 text-center" th:text="${titulo}"></h2>
 
-            <label class="col-form-label">Fecha y Hora</label>
-            <input class="form-control" type="text" id="fechaHora" name="fechaHora" required th:value="*{fechaHora}" placeholder="YYYY-MM-DD HH:MM:SS"/>
-
-            <label class="col-form-label">Estado</label>
-            <select class="form-control" id="estado" name="estado" required th:value="*{estado}">
-                <option value="">Seleccione...</option>
-                <option value="Vigente">Vigente</option>
-                <option value="Cancelada">Cancelada</option>
-                <option value="Completada">Completada</option>
-            </select>
-            <label class="col-form-label">ID Orden de Servicio</label>
-            <input class="form-control" type="number" id="idOrdenDeServicio" name="idOrdenDeServicio" required th:value="*{idOrdenDeServicio}" />
-
-            <label class="col-form-label">Tipo Doc Contribuyente</label>
-            <input class="form-control" type="text" id="tipoDocContribuyente" name="tipoDocContribuyente" required th:value="*{tipoDocContribuyente}" />
-
-            <label class="col-form-label">Num Doc Contribuyente</label>
-            <input class="form-control" type="number" id="numDocContribuyente" name="numDocContribuyente" required th:value="*{numDocContribuyente}" />
-
-            <label class="col-form-label">Tipo Doc Beneficiario</label>
-            <input class="form-control" type="text" id="tipoDocBeneficiario" name="tipoDocBeneficiario" required th:value="*{tipoDocBeneficiario}" placeholder="Ej: CC o TI"/>
-
-            <label class="col-form-label">Número Doc Beneficiario</label>
-            <input class="form-control" type="number" id="numDocBeneficiario" name="numDocBeneficiario" required th:value="*{numDocBeneficiario}" placeholder="Ej: 1234567890"/>
-
-
-            <div class="text-center mt-3">
-                <input type="submit" value="Guardar" class="btn btn-primary"/>
-                <a th:href="@{/cita}" class="btn btn-secondary">Cancelar</a>
-            </div>
-        </form>
+    <!-- Campos del formulario (no incluye el <form> wrapper) -->
+    <div class="mb-3">
+      <label for="medico" class="form-label">Médico</label>
+      <select id="medico" th:field="*{medico.id}" class="form-select" required>
+        <option value="" disabled>-- Selecciona un médico --</option>
+        <option th:each="m : ${medicos}" th:value="${m.id}" th:text="${m.nombre}"></option>
+      </select>
     </div>
+
+    <div class="mb-3">
+      <label for="pacienteTipo" class="form-label">Tipo de Paciente</label>
+      <select id="pacienteTipo" th:field="*{pacienteTipo}" class="form-select" required>
+        <option value="" disabled>-- Selecciona tipo --</option>
+        <option th:each="t : ${pacienteTipos}" th:value="${t}" th:text="${t}"></option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="pacienteId" class="form-label">ID de Paciente</label>
+      <input type="number"
+             id="pacienteId"
+             th:field="*{pacienteId}"
+             class="form-control"
+             placeholder="Número de documento"
+             required />
+    </div>
+
+    <div class="mb-3">
+      <label for="fechaHora" class="form-label">Fecha y Hora</label>
+      <input type="datetime-local"
+             id="fechaHora"
+             th:field="*{fechaHora}"
+             class="form-control"
+             step="60"
+             required />
+      <div class="form-text">Selecciona la fecha y hora de la cita.</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="estado" class="form-label">Estado</label>
+      <select id="estado" th:field="*{estado}" class="form-select" required>
+        <option value="" disabled>-- Selecciona estado --</option>
+        <option value="Vigente">Vigente</option>
+        <option value="Cancelada">Cancelada</option>
+        <option value="Completada">Completada</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="ordenDeServicioId" class="form-label">ID Orden de Servicio</label>
+      <input type="number"
+             id="ordenDeServicioId"
+             th:field="*{ordenDeServicioId}"
+             class="form-control"
+             placeholder="ID Orden de Servicio"
+             required />
+    </div>
+  </div>
 </body>
 </html>

@@ -1,16 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar cita</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Editar Cita</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
 </head>
 <body>
-    <form th:action="@{'/cita/' + ${cita.idCita} + '/edit/save'}" th:object="${cita}" method="post">
-        <div th:replace="~{fragments/citaForm :: citaForm(titulo='Editar cita', cita=${cita})}">
-            
-        </div>
+  <div class="container mt-5">
+    <form th:action="@{/cita/{id}/edit/save(id=${cita.id})}"
+          th:object="${cita}"
+          method="post">
+      <div th:replace="fragments/citaForm :: citaForm(titulo='Editar Cita')"></div>
+      <div class="text-center mt-4">
+        <button type="submit" class="btn btn-primary">Actualizar</button>
+        <a th:href="@{/cita}" class="btn btn-secondary ms-2">Cancelar</a>
+      </div>
     </form>
+  </div>
 </body>
 </html>
