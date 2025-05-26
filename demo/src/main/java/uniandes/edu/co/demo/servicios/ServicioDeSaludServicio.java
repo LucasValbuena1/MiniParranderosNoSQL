@@ -8,17 +8,17 @@ import java.util.stream.Collectors;
 
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
-import org.springframework.data.mongodb.core.aggregation.GroupOperation;
-import org.springframework.data.mongodb.core.aggregation.LimitOperation;
 import org.springframework.data.mongodb.core.aggregation.LookupOperation;
 import org.springframework.data.mongodb.core.aggregation.MatchOperation;
-import org.springframework.data.mongodb.core.aggregation.ProjectionOperation;
-import org.springframework.data.mongodb.core.aggregation.SortOperation;
 import org.springframework.data.mongodb.core.aggregation.UnwindOperation;
+import org.springframework.data.mongodb.core.aggregation.ProjectionOperation;
+import org.springframework.data.mongodb.core.aggregation.GroupOperation;
+import org.springframework.data.mongodb.core.aggregation.SortOperation;
+import org.springframework.data.mongodb.core.aggregation.LimitOperation;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
 
@@ -78,65 +78,106 @@ public class ServicioDeSaludServicio {
 
     /**
      * Consulta la disponibilidad de un servicio de salud (RFC-1).
-     * Devuelve List<Object[]> = [servicio, disponibilidad, ips, medico]
+     * Si el servicio tiene idOrden, filtra citas solo para esa orden.
+     * Devuelve List<Object[]> = [nombreServicio, fechaHora, ips, medico]
      */
     public List<Object[]> consultarDisponibilidad(Integer idServicio) {
-        MatchOperation m0 = Aggregation.match(Criteria.where("idServicio").is(idServicio));
-        LookupOperation l1 = LookupOperation.newLookup()
-                .from("ordenesDeServicio")
-                .localField("idServicio")
-                .foreignField("servicioMedico")
-                .as("ordenes");
-        UnwindOperation u1 = Aggregation.unwind("ordenes");
-        LookupOperation l2 = LookupOperation.newLookup()
-                .from("citas")
-                .localField("ordenes.idOrden")
-                .foreignField("idOrdenDeServicio")
-                .as("citas");
-        UnwindOperation u2 = Aggregation.unwind("citas");
-        LookupOperation l3 = LookupOperation.newLookup()
-                .from("medicoEnIPS")
-                .localField("ordenes.medicoAsociado")
-                .foreignField("numeroRegistroMedico")
-                .as("meIPS");
-        UnwindOperation u3 = Aggregation.unwind("meIPS", true);
-        LookupOperation l4 = LookupOperation.newLookup()
-                .from("medicos")
-                .localField("ordenes.medicoAsociado")
-                .foreignField("numeroRegistroMedico")
-                .as("medico");
-        UnwindOperation u4 = Aggregation.unwind("medico", true);
-        LookupOperation l5 = LookupOperation.newLookup()
-                .from("ips")
-                .localField("meIPS.nitIPS")
-                .foreignField("nit")
+        ServicioDeSalud serv = darServicio(idServicio);
+
+        // Caso A: servicio con orden específica
+        if (serv.getIdOrden() != null) {
+            Integer ordenId = serv.getIdOrden();
+
+            MatchOperation matchCitas = Aggregation.match(
+                Criteria.where("ordenDeServicio").is(ordenId)
+            );
+
+            LookupOperation lookupOrden = LookupOperation.newLookup()
+                .from("ORDENES_DE_SERVICIO")
+                .localField("ordenDeServicio")
+                .foreignField("_id")
+                .as("orden");
+            UnwindOperation uOrden = Aggregation.unwind("orden");
+            UnwindOperation uIPS   = Aggregation.unwind("orden.IPS");
+            LookupOperation lookupIPS = LookupOperation.newLookup()
+                .from("IPS")
+                .localField("orden.IPS")
+                .foreignField("_id")
                 .as("ips");
-        UnwindOperation u5 = Aggregation.unwind("ips", true);
-        ProjectionOperation p = Aggregation.project()
-                .and("nombre").as("servicio")
-                .and("citas.fechaHora").as("disponibilidad")
+            UnwindOperation uIpsDoc = Aggregation.unwind("ips");
+
+            ProjectionOperation projA = Aggregation.project()
+                .and("fechaHora").as("disponibilidad")
                 .and("ips.nombre").as("ips")
                 .and("medico.nombre").as("medico");
 
-        Aggregation agg = Aggregation.newAggregation(
-                m0, l1, u1,
-                l2, u2,
-                l3, u3,
-                l4, u4,
-                l5, u5,
-                p
-        );
+            Aggregation aggA = Aggregation.newAggregation(
+                matchCitas,
+                lookupOrden, uOrden,
+                uIPS, lookupIPS, uIpsDoc,
+                projA
+            );
 
-        return mongoTemplate.aggregate(agg, "serviciosDeSalud", Document.class)
-                .getMappedResults()
-                .stream()
-                .map(d -> new Object[] {
-                    d.getString("servicio"),
+            List<Document> docs = mongoTemplate.aggregate(aggA, "CITAS", Document.class)
+                                              .getMappedResults();
+
+            return docs.stream()
+                .map(d -> new Object[]{
+                    serv.getNombre(),
                     d.getDate("disponibilidad"),
                     d.getString("ips"),
                     d.getString("medico")
                 })
                 .collect(Collectors.toList());
+        }
+
+        // Caso B: servicio sin orden específica -> agregación original
+        MatchOperation m0 = Aggregation.match(
+            Criteria.where("_id").is(idServicio)
+        );
+        LookupOperation l1 = LookupOperation.newLookup()
+            .from("ORDENES_DE_SERVICIO")
+            .localField("_id")
+            .foreignField("serviciosMedicos")
+            .as("ordenes");
+        UnwindOperation u1 = Aggregation.unwind("ordenes");
+        LookupOperation l2 = LookupOperation.newLookup()
+            .from("CITAS")
+            .localField("ordenes._id")
+            .foreignField("ordenDeServicio")
+            .as("citas");
+        UnwindOperation u2 = Aggregation.unwind("citas");
+        UnwindOperation u3 = Aggregation.unwind("ordenes.IPS");
+        LookupOperation l4 = LookupOperation.newLookup()
+            .from("IPS")
+            .localField("ordenes.IPS")
+            .foreignField("_id")
+            .as("ips");
+        UnwindOperation u4 = Aggregation.unwind("ips");
+        ProjectionOperation p = Aggregation.project()
+            .and("nombre").as("servicio")
+            .and("citas.fechaHora").as("disponibilidad")
+            .and("ips.nombre").as("ips")
+            .and("citas.medico.nombre").as("medico");
+
+        Aggregation aggB = Aggregation.newAggregation(
+            m0, l1, u1,
+            l2, u2,
+            u3, l4, u4,
+            p
+        );
+
+        List<Document> docs = mongoTemplate.aggregate(aggB, "SERVICIOS_DE_SALUD", Document.class)
+                                          .getMappedResults();
+
+        return docs.stream()
+            .map(d -> new Object[]{
+                d.getString("servicio"),
+                d.getDate("disponibilidad"),
+                d.getString("ips"),
+                d.getString("medico")
+            })
+            .collect(Collectors.toList());
     }
 
     /**
@@ -152,53 +193,41 @@ public class ServicioDeSaludServicio {
         MatchOperation match = Aggregation.match(
             Criteria.where("fechaHora").gte(start).lt(end)
         );
-
         LookupOperation lookupOrden = LookupOperation.newLookup()
             .from("ORDENES_DE_SERVICIO")
             .localField("ordenDeServicio")
             .foreignField("_id")
             .as("orden");
-
-        UnwindOperation unwindOrden = Aggregation.unwind("orden");
-        UnwindOperation unwindServ  = Aggregation.unwind("orden.serviciosMedicos");
-
-        GroupOperation groupByServ = Aggregation.group("orden.serviciosMedicos")
+        UnwindOperation uOrden = Aggregation.unwind("orden");
+        UnwindOperation uServ  = Aggregation.unwind("orden.serviciosMedicos");
+        GroupOperation group = Aggregation.group("orden.serviciosMedicos")
             .count().as("solicitudes");
-
-        SortOperation sortDesc = Aggregation.sort(
+        SortOperation sort  = Aggregation.sort(
             Sort.by(Sort.Direction.DESC, "solicitudes")
         );
-        LimitOperation limit20 = Aggregation.limit(20);
-
-        LookupOperation lookupServInfo = LookupOperation.newLookup()
+        LimitOperation lim = Aggregation.limit(20);
+        LookupOperation lookupSrv = LookupOperation.newLookup()
             .from("SERVICIOS_DE_SALUD")
             .localField("_id")
             .foreignField("_id")
             .as("srv");
-
-        UnwindOperation unwindSrv = Aggregation.unwind("srv");
-
-        ProjectionOperation project = Aggregation.project()
+        UnwindOperation uSrv = Aggregation.unwind("srv");
+        ProjectionOperation proj = Aggregation.project()
             .and("srv.nombre").as("servicio")
             .and("solicitudes").as("solicitudes");
 
         Aggregation agg = Aggregation.newAggregation(
-            match,
-            lookupOrden, unwindOrden, unwindServ,
-            groupByServ,
-            sortDesc, limit20,
-            lookupServInfo, unwindSrv,
-            project
+            match, lookupOrden, uOrden, uServ,
+            group, sort, lim,
+            lookupSrv, uSrv, proj
         );
 
         AggregationResults<Document> result = mongoTemplate.aggregate(
-            agg,
-            "CITAS",
-            Document.class
+            agg, "CITAS", Document.class
         );
 
         return result.getMappedResults().stream()
-            .map(d -> new Object[] {
+            .map(d -> new Object[]{
                 d.getString("servicio"),
                 d.getInteger("solicitudes")
             })
